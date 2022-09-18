@@ -1,0 +1,244 @@
+fileFormatVersion: 2
+guid: 552075858a0e31444a0aa6bf55dc83f2
+ModelImporter:
+  serializedVersion: 22103
+  internalIDToNameTable:
+  - first:
+      74: -554108369309548041
+    second: Bip01 Footsteps|Bip01 Footsteps|Take 001|BaseLayer
+  - first:
+      74: 4781951162920444690
+    second: Armature|ArmatureAction
+  - first:
+      74: -1422011007694221501
+    second: Armature|ArmatureAction.001
+  - first:
+      74: 2278671351036844032
+    second: Armature|Bip01 Footsteps|Take 001|BaseLayer
+  - first:
+      74: 8800164785096531035
+    second: Armature|pila-climbing
+  - first:
+      74: 2218865911720438184
+    second: Armature|pila-climbing-idle
+  - first:
+      74: -8507355644488659257
+    second: Armature|pila-crouch
+  - first:
+      74: -1031367887995203452
+    second: Armature|pila-double-jump
+  - first:
+      74: 5812032128338279224
+    second: Armature|pila-fall
+  - first:
+      74: 3380153365538304085
+    second: Armature|pila-floating
+  - first:
+      74: -4991425006036080746
+    second: Armature|pila-held-object
+  - first:
+      74: 5609987049346908428
+    second: Armature|pila-hold-moveable
+  - first:
+      74: 8308481679645226014
+    second: Armature|pila-hold-object
+  - first:
+      74: 4268387559044725813
+    second: Armature|pila-hurt-front
+  - first:
+      74: -4172731623062029702
+    second: Armature|pila-jump
+  - first:
+      74: -491144328624257772
+    second: Armature|pila-jump-down
+  - first:
+      74: -2472342980552104292
+    second: Armature|pila-jump-top
+  - first:
+      74: 8140828989310603599
+    second: Armature|pila-jump-up
+  - first:
+      74: -5180449624829426378
+    second: Armature|pila-kartwheel
+  - first:
+      74: -8229792653208049399
+    second: Armature|pila-ladder
+  - first:
+      74: -1978403118388728895
+    second: Armature|pila-ledge-climb
+  - first:
+      74: -8004322554018231980
+    second: Armature|pila-ledge-grab
+  - first:
+      74: 8060255721049831729
+    second: Armature|pila-ledge-grab-start
+  - first:
+      74: -1398092035732002539
+    second: Armature|pila-lift
+  - first:
+      74: -306370994752739886
+    second: Armature|pila-pull
+  - first:
+      74: -8596981146410436353
+    second: Armature|pila-pull-lever
+  - first:
+      74: -8221491163600081445
+    second: Armature|pila-push-forward
+  - first:
+      74: 4459677070751465492
+    second: Armature|pila-push-sideways
+  - first:
+      74: -9203705511383640588
+    second: Armature|pila-push-sideways-mirror
+  - first:
+      74: 4713634821758216639
+    second: Armature|pila-run
+  - first:
+      74: 3590599499372842590
+    second: Armature|pila-slide
+  - first:
+      74: 3708575841815766188
+    second: Armature|pila-stand
+  - first:
+      74: -5084373832432559668
+    second: Armature|pila-swim
+  - first:
+      74: 9053911389824857604
+    second: Armature|pila-throw-object
+  - first:
+      74: -6386392790512389011
+    second: Armature|pila-throwing-object
+  - first:
+      74: -5125977370302163989
+    second: Armature|pila-throwing-object-max
+  - first:
+      74: -8862102620011329801
+    second: Armature|pila-thrown-object
+  - first:
+      74: -9044282039552716064
+    second: Armature|pila-tread
+  - first:
+      74: -7081301334027437935
+    second: Armature|pila-umbrella-float
+  - first:
+      74: 3118319206745968795
+    second: Armature|pila-use
+  - first:
+      74: -5689770396048866815
+    second: Armature|pila-walk
+  - first:
+      74: -8741001108486035702
+    second: Armature|pila-wall-slide
+  - first:
+      74: 55172091333318190
+    second: Armature|pila-wall-slide-jump-ready
+  - first:
+      74: 2546588937247902078
+    second: Pila|ArmatureAction
+  - first:
+      74: 1205651376385032475
+    second: Pila|Bip01 Footsteps|Take 001|BaseLayer
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 79f689f5eb041eb409e404c2aa55cf42,
+    type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
