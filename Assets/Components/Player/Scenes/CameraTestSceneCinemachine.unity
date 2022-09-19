@@ -297,7 +297,7 @@ MonoBehaviour:
       m_LegacyVelocityFilterStrength: -1
   m_YAxisRecentering:
     m_enabled: 1
-    m_WaitTime: 1
+    m_WaitTime: 10
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
@@ -469,7 +469,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.07931579, y: 0.0000000085760865, z: -6.8236883e-10, w: 0.9968496}
+  m_LocalRotation: {x: 0.07931579, y: -0.000000008575453, z: 6.823184e-10, w: 0.9968496}
   m_LocalPosition: {x: 0, y: 4.512, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -728,7 +728,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690137159}
-  m_LocalRotation: {x: 0.10251728, y: 1e-45, z: -0, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251728, y: 6.746031e-30, z: -4.9465743e-31, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1053,7 +1053,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152890484}
-  m_LocalRotation: {x: 0.07931578, y: 0.000000004288043, z: -3.411844e-10, w: 0.99684954}
+  m_LocalRotation: {x: 0.07931578, y: -0.0000000042867767, z: 3.4108363e-10, w: 0.99684954}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1291,7 +1291,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930925988}
-  m_LocalRotation: {x: 0.056171823, y: -0.0000000021474018, z: 1.2081422e-10, w: 0.99842113}
+  m_LocalRotation: {x: 0.056171823, y: 0.0000000021518738, z: -1.2106582e-10, w: 0.99842113}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1708,7 +1708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Capsule: {fileID: 136457489529697243}
-  CapsuleRadius: 0.5
+  CapsuleRadius: 0.35
   CapsuleHeight: 2
   CapsuleYOffset: 1
   CapsulePhysicsMaterial: {fileID: 0}
@@ -1723,7 +1723,7 @@ MonoBehaviour:
   AllowSteppingWithoutStableGrounding: 0
   MinRequiredStepDepth: 0.1
   LedgeAndDenivelationHandling: 1
-  MaxStableDistanceFromLedge: 0.5
+  MaxStableDistanceFromLedge: 0.15
   MaxVelocityForLedgeSnap: 0
   MaxStableDenivelationAngle: 180
   InteractiveRigidbodyHandling: 1
@@ -1747,7 +1747,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -1787,9 +1787,9 @@ MonoBehaviour:
   OrientationSharpness: 10
   MaxAirMoveSpeed: 10
   AirAccelerationSpeed: 30
-  Drag: 0.1
+  Drag: 1
   AllowJumpingWhenSliding: 1
-  JumpUpSpeed: 10.5
+  JumpUpSpeed: 12
   JumpScalableForwardSpeed: 0
   JumpPreGroundingGraceTime: 0.1
   JumpPostGroundingGraceTime: 0.2

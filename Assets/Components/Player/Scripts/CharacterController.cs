@@ -174,7 +174,7 @@ public class CharacterController : MonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-
+        Debug.Log(currentVelocity);
         animator.SetBool("isGrounded", Motor.GroundingStatus.IsStableOnGround);
         animator.SetFloat("speedY", currentVelocity.y);
 
