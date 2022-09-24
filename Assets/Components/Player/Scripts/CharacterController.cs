@@ -4,10 +4,17 @@ using UnityEngine;
 using KinematicCharacterController;
 using UnityEngine.InputSystem;
 
-public class CharacterController : MonoBehaviour, ICharacterController
+public partial class CharacterController : MonoBehaviour, ICharacterController
 {
 
+    public enum CharacterState
+    {
+        Default,
+    }
+
     public KinematicCharacterMotor Motor;
+
+    //Input
     private PlatformerInputActions platformerInputActions;
     private InputAction playerMovement;
     private InputAction jumpInput;
@@ -30,12 +37,7 @@ public class CharacterController : MonoBehaviour, ICharacterController
     public float AirAccelerationSpeed = 15f;
     public float Drag = 0.1f;
 
-    [Header("Jumping")]
-    public bool AllowJumpingWhenSliding = false;
-    public float JumpUpSpeed = 10f;
-    public float JumpScalableForwardSpeed = 10f;
-    public float JumpPreGroundingGraceTime = 0f;
-    public float JumpPostGroundingGraceTime = 0f;
+
 
     [Header("Misc")]
     public List<Collider> IgnoredColliders = new List<Collider>();
@@ -56,6 +58,19 @@ public class CharacterController : MonoBehaviour, ICharacterController
     private float _timeSinceLastAbleToJump = 0f;
 
     private Vector3 _internalVelocityAdd = Vector3.zero;
+
+        [Header("Jumping")]
+    [SerializeField] private bool _allowJumpingWhenSliding = false;
+    [SerializeField] private float _jumpUpSpeed = 10f;
+    [SerializeField] private float _jumpScalableForwardSpeed = 10f;
+    [SerializeField] private float _jumpPreGroundingGraceTime = 0f;
+    [SerializeField] private float _jumpPostGroundingGraceTime = 0f;
+
+    public bool AllowJumpingWhenSliding { get { return _allowJumpingWhenSliding; } }
+    public float JumpUpSpeed { get { return _jumpUpSpeed; } }
+    public float JumpScalableForwardSpeed { get { return _jumpScalableForwardSpeed; } }
+    public float JumpPreGroundingGraceTime { get { return _jumpPreGroundingGraceTime; } }
+    public float JumpPostGroundingGraceTime { get { return _jumpPostGroundingGraceTime; } }
 
     void Awake()
     {
@@ -174,7 +189,6 @@ public class CharacterController : MonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
     {
-        Debug.Log(currentVelocity);
         animator.SetBool("isGrounded", Motor.GroundingStatus.IsStableOnGround);
         animator.SetFloat("speedY", currentVelocity.y);
 
