@@ -720,6 +720,15 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""66eddcd4-4d3f-4fc3-86a0-87e95aefb2de"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -777,6 +786,17 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68a0f712-bf4a-4087-9af8-352a45b9ab94"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -863,6 +883,7 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Movement = m_Camera.FindAction("Movement", throwIfNotFound: true);
+        m_Camera_Reset = m_Camera.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1069,11 +1090,13 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
     private readonly InputActionMap m_Camera;
     private ICameraActions m_CameraActionsCallbackInterface;
     private readonly InputAction m_Camera_Movement;
+    private readonly InputAction m_Camera_Reset;
     public struct CameraActions
     {
         private @PlatformerInputActions m_Wrapper;
         public CameraActions(@PlatformerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Camera_Movement;
+        public InputAction @Reset => m_Wrapper.m_Camera_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1086,6 +1109,9 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
                 @Movement.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnMovement;
+                @Reset.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_CameraActionsCallbackInterface = instance;
             if (instance != null)
@@ -1093,6 +1119,9 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
             }
         }
     }
@@ -1163,5 +1192,6 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
     public interface ICameraActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }

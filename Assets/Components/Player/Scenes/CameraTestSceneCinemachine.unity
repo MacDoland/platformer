@@ -469,7 +469,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.07931579, y: -0.000000008575453, z: 6.823184e-10, w: 0.9968496}
+  m_LocalRotation: {x: 0.07931579, y: 0.0000000085760865, z: -6.8236883e-10, w: 0.9968496}
   m_LocalPosition: {x: 0, y: 4.512, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -728,7 +728,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690137159}
-  m_LocalRotation: {x: 0.10251728, y: 6.746031e-30, z: -4.9465743e-31, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251728, y: 1.88e-43, z: -3.2e-44, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1053,7 +1053,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152890484}
-  m_LocalRotation: {x: 0.07931578, y: -0.0000000042867767, z: 3.4108363e-10, w: 0.99684954}
+  m_LocalRotation: {x: 0.07931578, y: 0.000000004288043, z: -3.411844e-10, w: 0.99684954}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1291,7 +1291,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930925988}
-  m_LocalRotation: {x: 0.056171823, y: 0.0000000021518738, z: -1.2106582e-10, w: 0.99842113}
+  m_LocalRotation: {x: 0.056171827, y: 0.000000004294808, z: -2.4162872e-10, w: 0.99842113}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1789,13 +1789,13 @@ MonoBehaviour:
   AirAccelerationSpeed: 30
   Drag: 1
   AllowJumpingWhenSliding: 1
-  JumpUpSpeed: 12
+  JumpUpSpeed: 16
   JumpScalableForwardSpeed: 0
   JumpPreGroundingGraceTime: 0.1
   JumpPostGroundingGraceTime: 0.2
   IgnoredColliders: []
   BonusOrientationSharpness: 12
-  Gravity: {x: 0, y: -30, z: 0}
+  Gravity: {x: 0, y: -40, z: 0}
   MeshRoot: {fileID: 1225546697}
   CameraFollowPoint: {fileID: 4718918906914899}
   CrouchedCapsuleHeight: 1

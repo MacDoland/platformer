@@ -301,6 +301,8 @@ namespace KinematicCharacterController.Examples
 
                             // Smooth movement Velocity
                             currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-StableMovementSharpness * deltaTime));
+                            currentVelocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
+
                         }
                         // Air movement
                         else
