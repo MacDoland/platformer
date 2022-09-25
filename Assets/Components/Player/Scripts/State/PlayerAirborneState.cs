@@ -70,7 +70,7 @@ public class PlayerAirborneState : PlayerBaseState
         velocity *= (1f / (1f + (_ctx.Drag * deltaTime)));
 
         _transform = _ctx.Motor.Transform;
-        _ledgeGrabDetected = IsFacingWall(out _ledgeGrabWallInfo) && IsNearEdge(out _ledgeGrabSpaceInfo)
+        _ledgeGrabDetected = velocity.y < 0 && IsFacingWall(out _ledgeGrabWallInfo) && IsNearEdge(out _ledgeGrabSpaceInfo)
                     && HasClimbUpPoint(GetDistanceFromWall(_transform.position, _ledgeGrabWallInfo.point), _ledgeGrabWallInfo.normal, out _ledgeGrabLedgeInfo)
                     && HasEnoughClearance(_ctx.Motor.Transform.position, 1.6f, _ctx.PlayerLayer);
 

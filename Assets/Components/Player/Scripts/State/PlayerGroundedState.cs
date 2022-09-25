@@ -30,7 +30,7 @@ public class PlayerGroundedState : PlayerBaseState
         {
             SwitchState(_stateFactory.Jump());
         }
-        else if (!_ctx.Motor.GroundingStatus.IsStableOnGround)
+        else if (!_ctx.Motor.GroundingStatus.FoundAnyGround)
         {
             SwitchState(_stateFactory.Airborne());
         }
