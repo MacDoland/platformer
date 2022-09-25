@@ -4,7 +4,7 @@ using UnityEngine;
 using KinematicCharacterController;
 using UnityEngine.InputSystem;
 
-public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
+public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, ICameraTarget
 {
     [Header("Motor")]
     [SerializeField]
@@ -14,6 +14,9 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
     [Header("Camera")]
     [SerializeField]
     private Transform _cameraTransform;
+    [SerializeField] private Vector3 _cameraLookTargetOffset = new Vector3(0, 2f, 0);
+    public Vector3 CameraLookTarget { get; set; }
+    public Vector3 CameraLookTargetOffset { get { return _cameraLookTargetOffset; } }
 
     [Header("Collision Layers")]
     [SerializeField]
@@ -130,6 +133,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
         }
 
         _currentState.UpdateStates();
+
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -163,7 +167,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-       _currentState.UpdateStateRotations(ref currentRotation, Time.deltaTime);
+        _currentState.UpdateStateRotations(ref currentRotation, Time.deltaTime);
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
@@ -177,7 +181,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
 
         _currentState.UpdateStateVelocitys(ref currentVelocity, Time.deltaTime);
-        currentStateName = _currentState.Name;
+        currentStateName = _currentState.GetFullStateName();
 
         // Take into account additive velocity
         if (_internalVelocityAdd.sqrMagnitude > 0f)
@@ -191,5 +195,10 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
     {
         _timeSinceJumpRequested = 0f;
         _jumpRequested = true;
+    }
+
+    public Vector3 GetCameraTargetPosition()
+    {
+        return this.CameraLookTarget;
     }
 }

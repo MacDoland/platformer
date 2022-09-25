@@ -9,7 +9,9 @@ enum PlayerStates
     airMove, //sub
     idle, //sub
     sprint, //sub
-    jump //sub
+    jump, //sub
+    ledgeHang, //sub
+    ledgeClimb, //sub
 }
 
 public class PlayerStateFactory
@@ -25,6 +27,8 @@ public class PlayerStateFactory
         _states[PlayerStates.sprint] = new PlayerSprintState(_context, this, "Sprint");
         _states[PlayerStates.airMove] = new PlayerAirMoveState(_context, this, "AirMove");
         _states[PlayerStates.jump] = new PlayerJumpState(_context, this, "Jump");
+        _states[PlayerStates.ledgeHang] = new PlayerLedgeHangState(_context, this, "LedgeHang");
+        _states[PlayerStates.ledgeClimb] = new PlayerLedgeClimbState(_context, this, "LedgeClimb");
 
         // root states
         _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this, "Grounded");
@@ -64,5 +68,15 @@ public class PlayerStateFactory
     public PlayerBaseState Jump()
     {
         return _states[PlayerStates.jump];
+    }
+
+    public PlayerBaseState LedgeHang()
+    {
+        return _states[PlayerStates.ledgeHang];
+    }
+
+    public PlayerBaseState LedgeClimb()
+    {
+        return _states[PlayerStates.ledgeClimb];
     }
 }

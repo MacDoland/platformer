@@ -17,6 +17,7 @@ public class PlayerGroundedState : PlayerBaseState
     }
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
+        _ctx.CameraLookTarget = _ctx.Motor.Transform.position +  _ctx.CameraLookTargetOffset;
     }
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {

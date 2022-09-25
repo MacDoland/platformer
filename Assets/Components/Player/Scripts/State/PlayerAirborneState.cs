@@ -78,6 +78,8 @@ public class PlayerAirborneState : PlayerBaseState
         _ctx.LedgeGrabSpaceInfo = _ledgeGrabSpaceInfo;
         _ctx.LedgeGrabLedgeInfo = _ledgeGrabLedgeInfo;
 
+         _ctx.CameraLookTarget = _ctx.Motor.Transform.position +  _ctx.CameraLookTargetOffset;
+
     }
 
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)

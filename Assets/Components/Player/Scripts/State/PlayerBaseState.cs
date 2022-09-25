@@ -57,8 +57,25 @@ public abstract class PlayerBaseState
         }
     }
 
+    public string GetFullStateName()
+    {
+        var name = this.Name;
+
+        if (_currentSubState != null)
+        {
+            name = name + ":" + _currentSubState.GetFullStateName();
+        }
+
+        return name;
+    }
+
     protected void SwitchState(PlayerBaseState newState)
     {
+        //Exit Children States
+        if (_currentSubState != null)
+        {
+            _currentSubState.ExitState();
+        }
         //exit current state
         ExitState();
 
