@@ -13,10 +13,13 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
     [Header("Camera")]
     [SerializeField]
-    private Transform _cameraTransform;
+    private Camera _camera;
     [SerializeField] private Vector3 _cameraLookTargetOffset = new Vector3(0, 2f, 0);
+    public Camera Camera { get { return _camera; } }
     public Vector3 CameraLookTarget { get; set; }
     public Vector3 CameraLookTargetOffset { get { return _cameraLookTargetOffset; } }
+    public Vector3 PlayerCameraViewPosition { get; private set; }
+
 
     [Header("Collision Layers")]
     [SerializeField]
@@ -26,6 +29,11 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     [SerializeField]
     private LayerMask _playerLayer;
     public LayerMask PlayerLayer { get { return _playerLayer; } }
+
+    private Ray _groundHeightRay;
+    private RaycastHit _groundHeightRayHitInfo;
+    public float DistanceFromGround { get; private set; }
+    public Vector3 GroundPointUnderneath { get; private set; }
 
 
     [Header("Misc")]
@@ -95,11 +103,11 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     {
         // Calculate camera direction and rotation on the character plane
         #region Get Movement Vector
-        Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(_cameraTransform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
+        Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(_camera.transform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
 
         if (cameraPlanarDirection.sqrMagnitude == 0f)
         {
-            cameraPlanarDirection = Vector3.ProjectOnPlane(_cameraTransform.rotation * Vector3.up, Motor.CharacterUp).normalized;
+            cameraPlanarDirection = Vector3.ProjectOnPlane(_camera.transform.rotation * Vector3.up, Motor.CharacterUp).normalized;
         }
         Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, Motor.CharacterUp);
 
@@ -133,7 +141,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         }
 
         _currentState.UpdateStates();
-
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -188,6 +195,14 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         {
             currentVelocity += _internalVelocityAdd;
             _internalVelocityAdd = Vector3.zero;
+        }
+
+        _groundHeightRay = new Ray(this.transform.position + (Vector3.up * 2f), -Vector3.up);
+
+        if (Physics.Raycast(_groundHeightRay, out _groundHeightRayHitInfo, Mathf.Infinity, _layers))
+        {
+            this.DistanceFromGround = Vector3.Distance(this.transform.position, _groundHeightRayHitInfo.point);
+            this.GroundPointUnderneath = _groundHeightRayHitInfo.point;
         }
     }
 

@@ -18,7 +18,6 @@ public class PlayerLedgeHangState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("HELLO");
         _ctx.Animator.SetBool("isLedgeGrabbing", true);
         _currentPosition = _ctx.Motor.Transform.position;
         _edgePoint = _ctx.LedgeGrabWallInfo.point;

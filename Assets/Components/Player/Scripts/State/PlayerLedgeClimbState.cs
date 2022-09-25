@@ -46,8 +46,8 @@ public class PlayerLedgeClimbState : PlayerBaseState
     }
     public override void ExitState()
     {
-        Debug.Log("Exiting climb");
         _ctx.IsLedgeClimbComplete = false;
+         _ctx.Animator.SetBool("isLedgeGrabbing", false);
     }
     public override void UpdateState()
     {

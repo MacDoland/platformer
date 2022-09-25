@@ -46,6 +46,12 @@ public class PlayerAirborneState : PlayerBaseState
 
     private float _desiredDistanceFromWall = 0.5f;
 
+    private Vector3 _tempPosition;
+    private Vector3 _tempVelocity;
+    private float _heightFromGround = 0f;
+
+    private float cameraLookTargetScreenPosition;
+
 
     public PlayerAirborneState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
     : base(currentContext, playerStateFactory, name)
@@ -78,7 +84,24 @@ public class PlayerAirborneState : PlayerBaseState
         _ctx.LedgeGrabSpaceInfo = _ledgeGrabSpaceInfo;
         _ctx.LedgeGrabLedgeInfo = _ledgeGrabLedgeInfo;
 
-         _ctx.CameraLookTarget = _ctx.Motor.Transform.position +  _ctx.CameraLookTargetOffset;
+
+        _ctx.CameraLookTarget = _ctx.Motor.Transform.position + _ctx.CameraLookTargetOffset;
+
+        //cameraLookTargetScreenPosition = _ctx.Camera.WorldToViewportPoint(_ctx.CameraLookTarget).y;
+
+        // if (cameraLookTargetScreenPosition > 0.95f || cameraLookTargetScreenPosition < 0.05f)
+        // {
+        //     _ctx.CameraLookTarget = Vector3.SmoothDamp(
+        //     _ctx.CameraLookTarget,
+        //     _ctx.Motor.Transform.position + _ctx.CameraLookTargetOffset,
+        //     ref _tempVelocity,
+        //     0.1f,
+        //     Mathf.Infinity);
+        // }
+        // else
+        // {
+        //     _ctx.CameraLookTarget = _ctx.Motor.Transform.position.XZPlane() + new Vector3(0, _ctx.CameraLookTarget.y, 0);
+        // }
 
     }
 
