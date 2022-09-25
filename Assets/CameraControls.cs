@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class CameraControls : MonoBehaviour
 {
     public CinemachineVirtualCameraBase cameraBase;
+    public CinemachineFreeLook freeLook;
     public Transform target;
     private PlatformerInputActions cameraInputActions;
 
@@ -20,7 +21,22 @@ public class CameraControls : MonoBehaviour
         cameraBase.ForceCameraPosition(target.position + target.forward * -currentDistance, Quaternion.LookRotation(target.forward, Vector3.up));
     }
 
-    void ResetPosition (InputAction.CallbackContext context) {
+    void Update(){
+        if(cameraInputActions.Player.Sprint.IsPressed()) {
+            var position = this.transform.position;
+            freeLook.m_BindingMode = CinemachineTransposer.BindingMode.WorldSpace;
+            this.transform.position = position;
+        }
+    }
+
+    void ResetPosition(InputAction.CallbackContext context)
+    {
+        var currentDistance = Vector3.Distance(this.transform.position, target.position);
+        cameraBase.ForceCameraPosition(target.position + target.forward * -currentDistance, Quaternion.LookRotation(target.forward, Vector3.up));
+    }
+
+    void FixPosition(InputAction.CallbackContext context)
+    {
         var currentDistance = Vector3.Distance(this.transform.position, target.position);
         cameraBase.ForceCameraPosition(target.position + target.forward * -currentDistance, Quaternion.LookRotation(target.forward, Vector3.up));
     }
@@ -29,10 +45,13 @@ public class CameraControls : MonoBehaviour
     {
         cameraInputActions.Camera.Reset.performed += ResetPosition;
         cameraInputActions.Camera.Reset.Enable();
+
+        cameraInputActions.Player.Sprint.Enable();
     }
 
     void OnDisable()
     {
         cameraInputActions.Camera.Reset.Disable();
+        cameraInputActions.Player.Sprint.Disable();
     }
 }
