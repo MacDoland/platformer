@@ -9,7 +9,7 @@ public class PlayerGroundedState : PlayerBaseState
     }
 
     public override void EnterState() {
-        Debug.Log("Entering Grounded State");
+        //Debug.Log("Entering Grounded State");
      }
     public override void ExitState() { }
     public override void UpdateState(ref Vector3 velocity, float deltaTime) {

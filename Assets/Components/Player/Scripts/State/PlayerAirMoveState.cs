@@ -22,7 +22,7 @@ public class PlayerAirMoveState : PlayerBaseState
     }
 
     public override void EnterState() {
-        Debug.Log("Entering AirMove State");
+        //Debug.Log("Entering AirMove State");
      }
     public override void ExitState() { }
     public override void UpdateState(ref Vector3 currentVelocity, float deltaTime)

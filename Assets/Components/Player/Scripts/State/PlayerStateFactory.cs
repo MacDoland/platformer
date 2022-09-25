@@ -21,6 +21,7 @@ public class PlayerStateFactory
         _context = currentContext;
         // sub states
         _states[PlayerStates.move] = new PlayerMoveState(_context, this, "Move");
+        _states[PlayerStates.sprint] = new PlayerSprintState(_context, this, "Sprint");
         _states[PlayerStates.airMove] = new PlayerAirMoveState(_context, this, "AirMove");
         _states[PlayerStates.jump] = new PlayerJumpState(_context, this, "Jump");
 
@@ -43,7 +44,11 @@ public class PlayerStateFactory
     {
         return _states[PlayerStates.move];
     }
-    
+    public PlayerBaseState Sprint()
+    {
+        return _states[PlayerStates.sprint];
+    }
+
     public PlayerBaseState AirMove()
     {
         return _states[PlayerStates.airMove];

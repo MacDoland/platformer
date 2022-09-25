@@ -19,7 +19,7 @@ public class PlayerAirborneState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entering Airborne State");
+        //Debug.Log("Entering Airborne State");
     }
     public override void ExitState() { }
     public override void UpdateState(ref Vector3 currentVelocity, float deltaTime)

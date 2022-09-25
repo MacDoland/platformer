@@ -23,7 +23,9 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
     private PlatformerInputActions _platformerInputActions;
     private InputAction _playerMovement;
     private InputAction _jumpInput;
+    private bool _sprintButtonHeld = false;
     public InputAction JumpInput { get { return _jumpInput; } }
+    public bool SprintButtonHeld { get { return _sprintButtonHeld; } }
 
     private Vector3 _moveInputVector;
     private Vector3 _lookInputVector;
@@ -63,12 +65,15 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
         _platformerInputActions.Player.Jump.performed += PerformJump;
         _platformerInputActions.Player.Jump.Enable();
+        _platformerInputActions.Player.Sprint.Enable();
+
     }
 
     void OnDisable()
     {
         _playerMovement.Disable();
         _platformerInputActions.Player.Jump.Disable();
+        _platformerInputActions.Player.Sprint.Disable();
     }
 
     // Update is called once per frame
@@ -162,6 +167,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
         _jumpedThisFrame = false;
         _timeSinceJumpRequested += deltaTime;
+        _sprintButtonHeld = _platformerInputActions.Player.Sprint.IsPressed();
+
 
         _currentState.UpdateStates(ref currentVelocity, Time.deltaTime);
         currentStateName = _currentState.Name;
@@ -176,7 +183,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
     private void PerformJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("JUMPED");
         _timeSinceJumpRequested = 0f;
         _jumpRequested = true;
     }

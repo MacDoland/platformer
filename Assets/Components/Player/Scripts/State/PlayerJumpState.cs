@@ -37,7 +37,7 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entering Jump State");
+        //Debug.Log("Entering Jump State");
     }
     public override void ExitState()
     {
