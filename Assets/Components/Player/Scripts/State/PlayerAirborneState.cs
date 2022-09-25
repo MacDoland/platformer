@@ -11,7 +11,7 @@ public class PlayerAirborneState : PlayerBaseState
 
     public override void EnterState()
     {
-        //Debug.Log("Entering Airborne State");
+        SwitchState(_stateFactory.AirMove());
     }
     public override void ExitState() { }
     public override void UpdateState()
