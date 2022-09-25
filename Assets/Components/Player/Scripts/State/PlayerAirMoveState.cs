@@ -1,17 +1,5 @@
 using UnityEngine;
 
-public partial class PlayerStateMachine
-{
-    [Header("Air Movement")]
-    [SerializeField] private float _maxAirMoveSpeed = 15f;
-    [SerializeField] private float _airAccelerationSpeed = 15f;
-    [SerializeField] private float _drag = 0.1f;
-
-    public float MaxAirMoveSpeed { get { return _maxAirMoveSpeed; } }
-    public float AirAccelerationSpeed { get { return _airAccelerationSpeed; } }
-    public float Drag { get { return _drag; } }
-}
-
 public class PlayerAirMoveState : PlayerBaseState
 {
     public PlayerAirMoveState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
@@ -72,12 +60,21 @@ public class PlayerAirMoveState : PlayerBaseState
 
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {
-      
+       if (_ctx.LookInputVector.sqrMagnitude > 0f && _ctx.OrientationSharpness > 0f)
+        {
+            // Smoothly interpolate from current to target look direction
+            Vector3 smoothedLookInputDirection = Vector3.Slerp(_ctx.Motor.CharacterForward, _ctx.LookInputVector, 1 - Mathf.Exp(-_ctx.OrientationSharpness * deltaTime)).normalized;
+
+            // Set the current rotation (which will be used by the KinematicCharacterMotor)
+            rotation = Quaternion.LookRotation(smoothedLookInputDirection, _ctx.Motor.CharacterUp);
+        }
     }
 
     public override void InitSubState() { }
     public override void CheckState()
     {
-
+        if(_ctx.IsWallSliding) {
+            SwitchState(_stateFactory.WallSlide());
+        }
     }
 }

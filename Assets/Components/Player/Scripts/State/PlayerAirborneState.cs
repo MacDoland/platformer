@@ -1,36 +1,9 @@
 using UnityEngine;
 
-public partial class PlayerStateMachine
-{
-    [Header("Gravity")]
-    [SerializeField] private Vector3 _gravity = new Vector3(0, -40f, 0);
-
-    [Header("Ledge Grab")]
-    [SerializeField] private float _height = 1.6f;
-    [SerializeField] private float _keepDistanceFromWall = 0.15f;
-    [SerializeField] private float _ledgeGrabOffsetY = -0.5f;
-    private float _reachHeight = 1f;
-    private float _reachDistance = 0.5f;
-
-    private RaycastHit _ledgeGrabWallInfo;
-    private RaycastHit _ledgeGrabSpaceInfo;
-    private RaycastHit _ledgeGrabLedgeInfo;
-
-    public Vector3 Gravity { get { return _gravity; } }
-    public float Height { get { return _height; } }
-    public float KeepDistanceFromWall { get { return _keepDistanceFromWall; } }
-    public float ReachHeight { get { return _reachHeight; } }
-    public float ReachDistance { get { return _reachDistance; } }
-    public float LedgeGrabOffsetY { get { return _ledgeGrabOffsetY; } }
-
-    public RaycastHit LedgeGrabWallInfo { get { return _ledgeGrabWallInfo; } set { _ledgeGrabWallInfo = value; } }
-    public RaycastHit LedgeGrabSpaceInfo { get { return _ledgeGrabSpaceInfo; } set { _ledgeGrabSpaceInfo = value; } }
-    public RaycastHit LedgeGrabLedgeInfo { get { return _ledgeGrabLedgeInfo; } set { _ledgeGrabLedgeInfo = value; } }
-}
-
 public class PlayerAirborneState : PlayerBaseState
 {
     private bool _ledgeGrabDetected = false;
+    private bool _wallSlideDetected = false;
     private Ray _ray;
     private RaycastHit _ledgeGrabWallInfo;
     private RaycastHit _ledgeGrabSpaceInfo;
@@ -80,6 +53,8 @@ public class PlayerAirborneState : PlayerBaseState
                     && HasClimbUpPoint(GetDistanceFromWall(_transform.position, _ledgeGrabWallInfo.point), _ledgeGrabWallInfo.normal, out _ledgeGrabLedgeInfo)
                     && HasEnoughClearance(_ctx.Motor.Transform.position, 1.6f, _ctx.PlayerLayer);
 
+        _wallSlideDetected =  !_ledgeGrabDetected && velocity.y < 0 && IsFacingWall(out _ledgeGrabWallInfo);      
+
         _ctx.LedgeGrabWallInfo = _ledgeGrabWallInfo;
         _ctx.LedgeGrabSpaceInfo = _ledgeGrabSpaceInfo;
         _ctx.LedgeGrabLedgeInfo = _ledgeGrabLedgeInfo;
@@ -107,14 +82,7 @@ public class PlayerAirborneState : PlayerBaseState
 
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {
-        if (_ctx.LookInputVector.sqrMagnitude > 0f && _ctx.OrientationSharpness > 0f)
-        {
-            // Smoothly interpolate from current to target look direction
-            Vector3 smoothedLookInputDirection = Vector3.Slerp(_ctx.Motor.CharacterForward, _ctx.LookInputVector, 1 - Mathf.Exp(-_ctx.OrientationSharpness * deltaTime)).normalized;
-
-            // Set the current rotation (which will be used by the KinematicCharacterMotor)
-            rotation = Quaternion.LookRotation(smoothedLookInputDirection, _ctx.Motor.CharacterUp);
-        }
+       
     }
 
     public override void InitSubState()
@@ -130,6 +98,11 @@ public class PlayerAirborneState : PlayerBaseState
         else if (_ledgeGrabDetected)
         {
             SwitchState(_stateFactory.LedgeGrab());
+        }
+        else if (_wallSlideDetected)
+        {
+           // SwitchState(_stateFactory.WallSlide());
+           _ctx.IsWallSliding = true;
         }
     }
 

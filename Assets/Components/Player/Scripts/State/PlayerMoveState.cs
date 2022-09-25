@@ -1,20 +1,5 @@
 using UnityEngine;
 
-public partial class PlayerStateMachine
-{
-    [Header("Stable Movement")]
-    [SerializeField]
-    private float _maxStableMoveSpeed = 10f;
-    [SerializeField]
-    private float _stableMovementSharpness = 15f;
-    [SerializeField]
-    private float _orientationSharpness = 10f;
-
-    public float MaxStableMoveSpeed { get { return _maxStableMoveSpeed; } }
-    public float StableMovementSharpness { get { return _stableMovementSharpness; } }
-    public float OrientationSharpness { get { return _orientationSharpness; } }
-}
-
 public class PlayerMoveState : PlayerBaseState
 {
     public PlayerMoveState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)

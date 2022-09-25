@@ -757,7 +757,7 @@ public partial class @PlatformerInputActions : IInputActionCollection2, IDisposa
                     ""id"": ""3cd6092a-0de8-4108-8287-5ecefe371a0c"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": ""StickDeadzone"",
+                    ""processors"": ""StickDeadzone,ScaleVector2(x=0.5,y=0.5)"",
                     ""groups"": """",
                     ""action"": ""Movement"",
                     ""isComposite"": true,

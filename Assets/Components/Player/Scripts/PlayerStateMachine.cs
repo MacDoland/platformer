@@ -35,6 +35,49 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public float DistanceFromGround { get; private set; }
     public Vector3 GroundPointUnderneath { get; private set; }
 
+    [Header("Stable Movement")]
+    [SerializeField]
+    private float _maxStableMoveSpeed = 10f;
+    [SerializeField]
+    private float _stableMovementSharpness = 15f;
+    [SerializeField]
+    private float _orientationSharpness = 10f;
+
+    public float MaxStableMoveSpeed { get { return _maxStableMoveSpeed; } }
+    public float StableMovementSharpness { get { return _stableMovementSharpness; } }
+    public float OrientationSharpness { get { return _orientationSharpness; } }
+
+    [Header("Air Movement")]
+    [SerializeField] private float _maxAirMoveSpeed = 15f;
+    [SerializeField] private float _airAccelerationSpeed = 15f;
+    [SerializeField] private float _drag = 0.1f;
+
+    public float MaxAirMoveSpeed { get { return _maxAirMoveSpeed; } }
+    public float AirAccelerationSpeed { get { return _airAccelerationSpeed; } }
+    public float Drag { get { return _drag; } }
+
+    [Header("Jumping")]
+    [SerializeField] private bool _allowJumpingWhenSliding = false;
+    [SerializeField] private float _jumpUpSpeed = 10f;
+    [SerializeField] private float _jumpScalableForwardSpeed = 10f;
+    [SerializeField] private float _jumpPreGroundingGraceTime = 0f;
+    [SerializeField] private float _jumpPostGroundingGraceTime = 0f;
+
+    private bool _jumpRequested = false;
+    private bool _jumpConsumed = false;
+    private bool _jumpedThisFrame = false;
+    private float _timeSinceJumpRequested = Mathf.Infinity;
+    private float _timeSinceLastAbleToJump = 0f;
+
+    public bool JumpRequested { get { return _jumpRequested; } set { _jumpRequested = value; } }
+    public bool JumpConsumed { get { return _jumpConsumed; } set { _jumpConsumed = value; } }
+    public bool JumpedThisFrame { get { return _jumpedThisFrame; } set { _jumpedThisFrame = value; } }
+    public float TimeSinceLastAbleToJump { get { return _timeSinceLastAbleToJump; } }
+    public bool AllowJumpingWhenSliding { get { return _allowJumpingWhenSliding; } }
+    public float JumpUpSpeed { get { return _jumpUpSpeed; } }
+    public float JumpScalableForwardSpeed { get { return _jumpScalableForwardSpeed; } }
+    public float JumpPreGroundingGraceTime { get { return _jumpPreGroundingGraceTime; } }
+    public float JumpPostGroundingGraceTime { get { return _jumpPostGroundingGraceTime; } }
 
     [Header("Misc")]
     [SerializeField]
@@ -64,6 +107,34 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
 
     private Vector3 _internalVelocityAdd = Vector3.zero;
+
+    [Header("Gravity")]
+    [SerializeField] private Vector3 _gravity = new Vector3(0, -40f, 0);
+
+    [Header("Ledge Grab")]
+    [SerializeField] private float _height = 1.6f;
+    [SerializeField] private float _keepDistanceFromWall = 0.15f;
+    [SerializeField] private float _ledgeGrabOffsetY = -0.5f;
+    private float _reachHeight = 1f;
+    private float _reachDistance = 0.5f;
+
+    private RaycastHit _ledgeGrabWallInfo;
+    private RaycastHit _ledgeGrabSpaceInfo;
+    private RaycastHit _ledgeGrabLedgeInfo;
+
+    public Vector3 Gravity { get { return _gravity; } }
+    public float Height { get { return _height; } }
+    public float KeepDistanceFromWall { get { return _keepDistanceFromWall; } }
+    public float ReachHeight { get { return _reachHeight; } }
+    public float ReachDistance { get { return _reachDistance; } }
+    public float LedgeGrabOffsetY { get { return _ledgeGrabOffsetY; } }
+
+    public RaycastHit LedgeGrabWallInfo { get { return _ledgeGrabWallInfo; } set { _ledgeGrabWallInfo = value; } }
+    public RaycastHit LedgeGrabSpaceInfo { get { return _ledgeGrabSpaceInfo; } set { _ledgeGrabSpaceInfo = value; } }
+    public RaycastHit LedgeGrabLedgeInfo { get { return _ledgeGrabLedgeInfo; } set { _ledgeGrabLedgeInfo = value; } }
+
+    //[Header("Wall Slide")]
+    public bool IsWallSliding {get; set;}
 
     /// Awake is called when the script instance is being loaded.
     void Awake()

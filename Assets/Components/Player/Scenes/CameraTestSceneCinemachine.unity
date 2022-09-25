@@ -837,6 +837,7 @@ GameObject:
   - component: {fileID: 140271040}
   - component: {fileID: 140271042}
   - component: {fileID: 140271043}
+  - component: {fileID: 140271044}
   m_Layer: 0
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -956,7 +957,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 140271039}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.941407, y: 2.5, z: -1.1844034}
+  m_LocalPosition: {x: -11.941407, y: 2.5, z: -1.1843998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -996,6 +997,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraBase: {fileID: 140271040}
   target: {fileID: 4718918906914899}
+--- !u!114 &140271044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140271039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 0
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0.114
+  m_Damping: 0.1
+  m_DampingWhenOccluded: 0.1
+  m_OptimalTargetDistance: 12
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,8 +1105,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.058787398, y: 0.6691897, z: -0.053245064, w: 0.7388465}
-  m_LocalPosition: {x: -11.941407, y: 2.5, z: -1.1844034}
+  m_LocalRotation: {x: 0.058787398, y: 0.66918975, z: -0.053245045, w: 0.7388465}
+  m_LocalPosition: {x: -11.941407, y: 2.5, z: -1.1843998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1333,7 +1364,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690137159}
-  m_LocalRotation: {x: 0.07598392, y: 0.6677677, z: -0.06882031, w: 0.7372765}
+  m_LocalRotation: {x: 0.075983904, y: 0.66776776, z: -0.06882033, w: 0.7372764}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1705,7 +1736,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152890484}
-  m_LocalRotation: {x: 0.058787387, y: 0.66918975, z: -0.053245045, w: 0.73884654}
+  m_LocalRotation: {x: 0.05878738, y: 0.66918975, z: -0.053245038, w: 0.7388465}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1943,7 +1974,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930925988}
-  m_LocalRotation: {x: 0.04163351, y: 0.6702447, z: -0.037708394, w: 0.74001133}
+  m_LocalRotation: {x: 0.041633505, y: 0.6702448, z: -0.037708405, w: 0.7400112}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2493,12 +2524,9 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  _animator: {fileID: 6177337247456936899}
-  currentStateName: 
-  _gravity: {x: 0, y: -40, z: 0}
-  _height: 1.6
-  _keepDistanceFromWall: 0.05
-  _ledgeGrabOffsetY: -0.5
+  _maxStableMoveSpeed: 10
+  _stableMovementSharpness: 15
+  _orientationSharpness: 10
   _maxAirMoveSpeed: 10
   _airAccelerationSpeed: 30
   _drag: 1
@@ -2507,7 +2535,10 @@ MonoBehaviour:
   _jumpScalableForwardSpeed: 0
   _jumpPreGroundingGraceTime: 0.1
   _jumpPostGroundingGraceTime: 0.1
-  _maxStableMoveSpeed: 10
-  _stableMovementSharpness: 15
-  _orientationSharpness: 10
+  _animator: {fileID: 6177337247456936899}
+  currentStateName: 
+  _gravity: {x: 0, y: -40, z: 0}
+  _height: 1.6
+  _keepDistanceFromWall: 0.05
+  _ledgeGrabOffsetY: -0.5
   _sprintMultiplier: 2

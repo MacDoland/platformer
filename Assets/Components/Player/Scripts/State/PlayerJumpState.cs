@@ -1,31 +1,5 @@
 using UnityEngine;
 
-public partial class PlayerStateMachine
-{
-    [Header("Jumping")]
-    [SerializeField] private bool _allowJumpingWhenSliding = false;
-    [SerializeField] private float _jumpUpSpeed = 10f;
-    [SerializeField] private float _jumpScalableForwardSpeed = 10f;
-    [SerializeField] private float _jumpPreGroundingGraceTime = 0f;
-    [SerializeField] private float _jumpPostGroundingGraceTime = 0f;
-
-    private bool _jumpRequested = false;
-    private bool _jumpConsumed = false;
-    private bool _jumpedThisFrame = false;
-    private float _timeSinceJumpRequested = Mathf.Infinity;
-    private float _timeSinceLastAbleToJump = 0f;
-
-    public bool JumpRequested { get { return _jumpRequested; } set { _jumpRequested = value; } }
-    public bool JumpConsumed { get { return _jumpConsumed; } set { _jumpConsumed = value; } }
-    public bool JumpedThisFrame { get { return _jumpedThisFrame; } set { _jumpedThisFrame = value; } }
-    public float TimeSinceLastAbleToJump { get { return _timeSinceLastAbleToJump; } }
-    public bool AllowJumpingWhenSliding { get { return _allowJumpingWhenSliding; } }
-    public float JumpUpSpeed { get { return _jumpUpSpeed; } }
-    public float JumpScalableForwardSpeed { get { return _jumpScalableForwardSpeed; } }
-    public float JumpPreGroundingGraceTime { get { return _jumpPreGroundingGraceTime; } }
-    public float JumpPostGroundingGraceTime { get { return _jumpPostGroundingGraceTime; } }
-}
-
 public class PlayerJumpState : PlayerBaseState
 {
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
@@ -51,7 +25,7 @@ public class PlayerJumpState : PlayerBaseState
     }
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
-        if (!_ctx.JumpConsumed && (((_ctx.AllowJumpingWhenSliding ? _ctx.Motor.GroundingStatus.FoundAnyGround : _ctx.Motor.GroundingStatus.IsStableOnGround) || _ctx.TimeSinceLastAbleToJump <= _ctx.JumpPostGroundingGraceTime)))
+        if (!_ctx.JumpConsumed && ((_ctx.AllowJumpingWhenSliding ? _ctx.Motor.GroundingStatus.FoundAnyGround : _ctx.Motor.GroundingStatus.IsStableOnGround) || _ctx.TimeSinceLastAbleToJump <= _ctx.JumpPostGroundingGraceTime))
         {
 
             Vector3 jumpDirection = _ctx.Motor.CharacterUp;

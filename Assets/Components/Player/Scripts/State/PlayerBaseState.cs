@@ -82,7 +82,7 @@ public abstract class PlayerBaseState
         //enter new state
         newState.EnterState();
 
-        if (_isRootState)
+        if (_isRootState || newState._isRootState)
         {
             //set current state
             _ctx.CurrentState = newState;
