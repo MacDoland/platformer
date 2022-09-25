@@ -4,6 +4,7 @@ enum PlayerStates
 {
     grounded, //super
     airborne, //super
+    ledgeGrab, //super
     move, //sub
     airMove, //sub
     idle, //sub
@@ -28,6 +29,7 @@ public class PlayerStateFactory
         // root states
         _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this, "Grounded");
         _states[PlayerStates.airborne] = new PlayerAirborneState(_context, this, "Airborne");
+        _states[PlayerStates.ledgeGrab] = new PlayerLedgeGrabState(_context, this, "LedgeGrab");
     }
 
     public PlayerBaseState Grounded()
@@ -38,6 +40,11 @@ public class PlayerStateFactory
     public PlayerBaseState Airborne()
     {
         return _states[PlayerStates.airborne];
+    }
+
+    public PlayerBaseState LedgeGrab()
+    {
+        return _states[PlayerStates.ledgeGrab];
     }
 
     public PlayerBaseState Move()

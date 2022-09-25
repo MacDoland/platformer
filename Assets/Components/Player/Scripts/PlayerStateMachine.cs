@@ -15,6 +15,17 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
     [SerializeField]
     private Transform _cameraTransform;
 
+    [Header("Collision Layers")]
+    [SerializeField]
+    private LayerMask _layers;
+    public LayerMask Layers { get { return _layers; } }
+
+    [SerializeField]
+    private LayerMask _playerLayer;
+    public LayerMask PlayerLayer { get { return _playerLayer; } }
+
+
+    [Header("Misc")]
     [SerializeField]
     private Animator _animator;
     public Animator Animator { get { return _animator; } }
@@ -31,7 +42,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
     private Vector3 _lookInputVector;
 
     public Vector3 MoveInputVector { get { return _moveInputVector; } }
-
+    public Vector3 LookInputVector { get { return _lookInputVector; } }
 
     //state
     private PlayerBaseState _currentState;
@@ -117,6 +128,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
             // Keep track of time since we were last able to jump (for grace period)
             _timeSinceLastAbleToJump += deltaTime;
         }
+
+        _currentState.UpdateStates();
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -150,14 +163,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        if (_lookInputVector.sqrMagnitude > 0f && _orientationSharpness > 0f)
-        {
-            // Smoothly interpolate from current to target look direction
-            Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector, 1 - Mathf.Exp(-_orientationSharpness * deltaTime)).normalized;
-
-            // Set the current rotation (which will be used by the KinematicCharacterMotor)
-            currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, Motor.CharacterUp);
-        }
+       _currentState.UpdateStateRotations(ref currentRotation, Time.deltaTime);
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
@@ -170,7 +176,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController
         _sprintButtonHeld = _platformerInputActions.Player.Sprint.IsPressed();
 
 
-        _currentState.UpdateStates(ref currentVelocity, Time.deltaTime);
+        _currentState.UpdateStateVelocitys(ref currentVelocity, Time.deltaTime);
         currentStateName = _currentState.Name;
 
         // Take into account additive velocity

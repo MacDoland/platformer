@@ -21,17 +21,23 @@ public class PlayerAirMoveState : PlayerBaseState
         InitSubState();
     }
 
-    public override void EnterState() {
+    public override void EnterState()
+    {
         //Debug.Log("Entering AirMove State");
-     }
+    }
     public override void ExitState() { }
-    public override void UpdateState(ref Vector3 currentVelocity, float deltaTime)
+    public override void UpdateState()
+    {
+        CheckState();
+    }
+
+    public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
         if (_ctx.MoveInputVector.sqrMagnitude > 0f)
         {
             Vector3 addedVelocity = _ctx.MoveInputVector * _ctx.AirAccelerationSpeed * deltaTime;
 
-            Vector3 currentVelocityOnInputsPlane = Vector3.ProjectOnPlane(currentVelocity, _ctx.Motor.CharacterUp);
+            Vector3 currentVelocityOnInputsPlane = Vector3.ProjectOnPlane(velocity, _ctx.Motor.CharacterUp);
 
             // Limit air velocity from inputs
             if (currentVelocityOnInputsPlane.magnitude < _ctx.MaxAirMoveSpeed)
@@ -52,7 +58,7 @@ public class PlayerAirMoveState : PlayerBaseState
             // Prevent air-climbing sloped walls
             if (_ctx.Motor.GroundingStatus.FoundAnyGround)
             {
-                if (Vector3.Dot(currentVelocity + addedVelocity, addedVelocity) > 0f)
+                if (Vector3.Dot(velocity + addedVelocity, addedVelocity) > 0f)
                 {
                     Vector3 perpenticularObstructionNormal = Vector3.Cross(Vector3.Cross(_ctx.Motor.CharacterUp, _ctx.Motor.GroundingStatus.GroundNormal), _ctx.Motor.CharacterUp).normalized;
                     addedVelocity = Vector3.ProjectOnPlane(addedVelocity, perpenticularObstructionNormal);
@@ -60,11 +66,15 @@ public class PlayerAirMoveState : PlayerBaseState
             }
 
             // Apply added velocity
-            currentVelocity += addedVelocity;
+            velocity += addedVelocity;
         }
-
-        CheckState();
     }
+
+    public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
+    {
+      
+    }
+
     public override void InitSubState() { }
     public override void CheckState()
     {

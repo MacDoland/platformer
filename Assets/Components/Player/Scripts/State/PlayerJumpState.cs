@@ -45,7 +45,11 @@ public class PlayerJumpState : PlayerBaseState
         _ctx.JumpConsumed = true;
         _ctx.JumpedThisFrame = true;
     }
-    public override void UpdateState(ref Vector3 currentVelocity, float deltaTime)
+    public override void UpdateState()
+    {
+        CheckState();
+    }
+    public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
         if (!_ctx.JumpConsumed && (((_ctx.AllowJumpingWhenSliding ? _ctx.Motor.GroundingStatus.FoundAnyGround : _ctx.Motor.GroundingStatus.IsStableOnGround) || _ctx.TimeSinceLastAbleToJump <= _ctx.JumpPostGroundingGraceTime)))
         {
@@ -61,15 +65,16 @@ public class PlayerJumpState : PlayerBaseState
             _ctx.Motor.ForceUnground();
 
             // Add to the return velocity and reset jump state
-            currentVelocity += (jumpDirection * _ctx.JumpUpSpeed) - Vector3.Project(currentVelocity, _ctx.Motor.CharacterUp);
-            currentVelocity += (_ctx.MoveInputVector * _ctx.JumpScalableForwardSpeed);
+            velocity += (jumpDirection * _ctx.JumpUpSpeed) - Vector3.Project(velocity, _ctx.Motor.CharacterUp);
+            velocity += (_ctx.MoveInputVector * _ctx.JumpScalableForwardSpeed);
 
             _ctx.JumpRequested = false;
             _ctx.JumpConsumed = true;
             _ctx.JumpedThisFrame = true;
         }
-
-        CheckState();
+    }
+    public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
+    {
     }
     public override void InitSubState() { }
     public override void CheckState()

@@ -20,17 +20,40 @@ public abstract class PlayerBaseState
 
     public abstract void EnterState();
     public abstract void ExitState();
-    public abstract void UpdateState(ref Vector3 velocity, float deltaTime);
+    public abstract void UpdateState();
+    public abstract void UpdateStateVelocity(ref Vector3 velocity, float deltaTime);
+    public abstract void UpdateStateRotation(ref Quaternion rotation, float deltaTime);
+
     public abstract void CheckState();
     public abstract void InitSubState();
 
-    public void UpdateStates(ref Vector3 velocity, float deltaTime)
+    public void UpdateStates()
     {
-        UpdateState(ref velocity, deltaTime);
+        UpdateState();
 
         if (_currentSubState != null)
         {
-            _currentSubState.UpdateStates(ref velocity, deltaTime);
+            _currentSubState.UpdateStates();
+        }
+    }
+
+    public void UpdateStateRotations(ref Quaternion rotation, float deltaTime)
+    {
+        UpdateStateRotation(ref rotation, deltaTime);
+
+        if (_currentSubState != null)
+        {
+            _currentSubState.UpdateStateRotations(ref rotation, deltaTime);
+        }
+    }
+
+    public void UpdateStateVelocitys(ref Vector3 velocity, float deltaTime)
+    {
+        UpdateStateVelocity(ref velocity, deltaTime);
+
+        if (_currentSubState != null)
+        {
+            _currentSubState.UpdateStateVelocitys(ref velocity, deltaTime);
         }
     }
 
@@ -47,7 +70,8 @@ public abstract class PlayerBaseState
             //set current state
             _ctx.CurrentState = newState;
         }
-        else if (_currentSuperState != null) {
+        else if (_currentSuperState != null)
+        {
             _currentSuperState.SetSubState(newState);
         }
     }

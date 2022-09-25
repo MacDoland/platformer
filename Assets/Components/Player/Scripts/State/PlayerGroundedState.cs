@@ -12,9 +12,15 @@ public class PlayerGroundedState : PlayerBaseState
         //Debug.Log("Entering Grounded State");
      }
     public override void ExitState() { }
-    public override void UpdateState(ref Vector3 velocity, float deltaTime) {
+    public override void UpdateState() {
         CheckState();
-     }
+    }
+    public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
+    {
+    }
+    public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
+    {
+    }
     public override void InitSubState() {
         SetSubState(_stateFactory.Move());
     }
