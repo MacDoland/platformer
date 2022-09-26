@@ -34,9 +34,11 @@ public class PlayerAirMoveState : PlayerBaseState
 
     public override void EnterState()
     {
-        //Debug.Log("Entering AirMove State");
+        Debug.Log("Entering AirMove State");
     }
-    public override void ExitState() { }
+    public override void ExitState() {
+        Debug.Log("Exiting AirMove State");
+     }
     public override void UpdateState()
     {
         CheckState();

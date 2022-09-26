@@ -76,7 +76,7 @@ public abstract class PlayerBaseState
         {
             _currentSubState.ExitState();
         }
-        //exit current state
+        //exit current state    
         ExitState();
 
         //enter new state

@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, ICameraTarget
 {
+    [SerializeField] private Vector3 _currentVelocity;
+
     [Header("Motor")]
     [SerializeField]
     private KinematicCharacterMotor _motor;
@@ -75,6 +77,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public float TimeSinceLastAbleToJump { get { return _timeSinceLastAbleToJump; } }
     public bool AllowJumpingWhenSliding { get { return _allowJumpingWhenSliding; } }
     public float JumpUpSpeed { get { return _jumpUpSpeed; } }
+    [field: SerializeField] public float WallJumpSpeed { get; private set; }
     public float JumpScalableForwardSpeed { get { return _jumpScalableForwardSpeed; } }
     public float JumpPreGroundingGraceTime { get { return _jumpPreGroundingGraceTime; } }
     public float JumpPostGroundingGraceTime { get { return _jumpPostGroundingGraceTime; } }
@@ -97,6 +100,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
     public Vector3 MoveInputVector { get { return _moveInputVector; } }
     public Vector3 LookInputVector { get { return _lookInputVector; } }
+    public PlatformerInputActions InputActions { get { return _platformerInputActions; } }
 
     //state
     private PlayerBaseState _currentState;
@@ -135,6 +139,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
     //[Header("Wall Slide")]
     public bool IsWallSliding {get; set;}
+
 
     /// Awake is called when the script instance is being loaded.
     void Awake()
@@ -275,6 +280,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
             this.DistanceFromGround = Vector3.Distance(this.transform.position, _groundHeightRayHitInfo.point);
             this.GroundPointUnderneath = _groundHeightRayHitInfo.point;
         }
+
+        _currentVelocity = currentVelocity;
     }
 
     private void PerformJump(InputAction.CallbackContext obj)
