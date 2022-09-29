@@ -36,9 +36,10 @@ public class PlayerAirMoveState : PlayerBaseState
     {
         Debug.Log("Entering AirMove State");
     }
-    public override void ExitState() {
+    public override void ExitState()
+    {
         Debug.Log("Exiting AirMove State");
-     }
+    }
     public override void UpdateState()
     {
         CheckState();
@@ -118,8 +119,8 @@ public class PlayerAirMoveState : PlayerBaseState
         }
         else if (_wallSlideDetected)
         {
-           // SwitchState(_stateFactory.WallSlide());
-           SwitchState(_stateFactory.WallSlide());
+            // SwitchState(_stateFactory.WallSlide());
+            SwitchState(_stateFactory.WallSlide());
         }
     }
 
@@ -166,5 +167,15 @@ public class PlayerAirMoveState : PlayerBaseState
         wallPoint.y = 0f;
 
         return Vector3.Distance(position, wallPoint);
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        
     }
 }

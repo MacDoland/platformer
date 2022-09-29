@@ -5,6 +5,7 @@ enum PlayerStates
     grounded, //super
     airborne, //super
     ledgeGrab, //super
+    inWater, //super
     move, //sub
     airMove, //sub
     wallSlide, // sub
@@ -13,6 +14,7 @@ enum PlayerStates
     jump, //sub
     ledgeHang, //sub
     ledgeClimb, //sub
+    swim // sub
 }
 
 public class PlayerStateFactory
@@ -31,11 +33,13 @@ public class PlayerStateFactory
         _states[PlayerStates.jump] = new PlayerJumpState(_context, this, "Jump");
         _states[PlayerStates.ledgeHang] = new PlayerLedgeHangState(_context, this, "LedgeHang");
         _states[PlayerStates.ledgeClimb] = new PlayerLedgeClimbState(_context, this, "LedgeClimb");
+        _states[PlayerStates.swim] = new PlayerSwimState(_context, this, "Swim");
 
         // root states
         _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this, "Grounded");
         _states[PlayerStates.airborne] = new PlayerAirborneState(_context, this, "Airborne");
         _states[PlayerStates.ledgeGrab] = new PlayerLedgeGrabState(_context, this, "LedgeGrab");
+        _states[PlayerStates.inWater] = new PlayerInWaterState(_context, this, "InWater");
     }
 
     public PlayerBaseState Grounded()
@@ -51,6 +55,11 @@ public class PlayerStateFactory
     public PlayerBaseState LedgeGrab()
     {
         return _states[PlayerStates.ledgeGrab];
+    }
+
+        public PlayerBaseState InWater()
+    {
+        return _states[PlayerStates.inWater];
     }
 
     public PlayerBaseState Move()
@@ -85,5 +94,10 @@ public class PlayerStateFactory
     public PlayerBaseState LedgeClimb()
     {
         return _states[PlayerStates.ledgeClimb];
+    }
+
+    public PlayerBaseState Swim()
+    {
+        return _states[PlayerStates.swim];
     }
 }

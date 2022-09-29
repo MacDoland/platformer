@@ -55,4 +55,14 @@ public class PlayerJumpState : PlayerBaseState
     {
         SwitchState(_stateFactory.Airborne());
     }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        
+    }
 }

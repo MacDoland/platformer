@@ -85,4 +85,14 @@ public class PlayerLedgeClimbState : PlayerBaseState
             SwitchState(_stateFactory.Grounded());
         }
     }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        
+    }
 }

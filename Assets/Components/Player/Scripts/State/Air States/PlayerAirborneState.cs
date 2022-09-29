@@ -40,6 +40,19 @@ public class PlayerAirborneState : PlayerBaseState
         {
             SwitchState(_stateFactory.Grounded());
         }
+        else if (_ctx.IsInWater) {
+             SwitchState(_stateFactory.InWater());
+        }
+    }
+
+    public override void OnTriggerEnter(Collider other)
+    {
+        _currentSubState.OnTriggerEnter(other);
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        _currentSubState.OnTriggerExit(other);
     }
 
 }

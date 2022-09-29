@@ -137,8 +137,13 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public RaycastHit LedgeGrabSpaceInfo { get { return _ledgeGrabSpaceInfo; } set { _ledgeGrabSpaceInfo = value; } }
     public RaycastHit LedgeGrabLedgeInfo { get { return _ledgeGrabLedgeInfo; } set { _ledgeGrabLedgeInfo = value; } }
 
+    
+    [Header("Swim")]
+    [field: SerializeField] public LayerMask WaterLayer;
+    [field: SerializeField] public bool IsInWater;
+
     //[Header("Wall Slide")]
-    public bool IsWallSliding {get; set;}
+    public bool IsWallSliding { get; set; }
 
 
     /// Awake is called when the script instance is being loaded.
@@ -284,6 +289,22 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         _currentVelocity = currentVelocity;
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        IsInWater = LayerIsInMask(WaterLayer, other.gameObject.layer);
+
+        _currentState.OnTriggerEnter(other);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(LayerIsInMask(WaterLayer, other.gameObject.layer)) {
+            IsInWater = false;
+        }
+
+        _currentState.OnTriggerExit(other);
+    }
+
     private void PerformJump(InputAction.CallbackContext obj)
     {
         _timeSinceJumpRequested = 0f;
@@ -293,5 +314,19 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public Vector3 GetCameraTargetPosition()
     {
         return this.CameraLookTarget;
+    }
+
+    private bool LayerIsInMask(LayerMask mask, int layer) {
+        return mask == (mask | (1 << layer));
+    }
+
+
+    /// <summary>
+    /// Callback to draw gizmos that are pickable and always drawn.
+    /// </summary>
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(Motor.transform.position + Vector3.up * 1.6f, 0.2f);
+        Gizmos.DrawSphere(Motor.transform.position + -Vector3.up * 0.5f, 0.2f);
     }
 }

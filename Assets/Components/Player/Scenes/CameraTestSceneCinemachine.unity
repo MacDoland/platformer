@@ -1660,6 +1660,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6604695439180345945, guid: 5175812c5a99faa4bb5acce735cb0fe8,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6604695439180345945, guid: 5175812c5a99faa4bb5acce735cb0fe8,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1346369550762627069, guid: 5175812c5a99faa4bb5acce735cb0fe8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 312798698618953876, guid: 5175812c5a99faa4bb5acce735cb0fe8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 77ad580579b52a74790e5d004d3e835e, type: 2}
     - target: {fileID: 919132149155446097, guid: 5175812c5a99faa4bb5acce735cb0fe8,
         type: 3}
       propertyPath: m_Name
@@ -2516,6 +2536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdc7d26d9c3d084a99e562ef796428e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentVelocity: {x: 0, y: 0, z: 0}
   _motor: {fileID: 114967585936968975}
   _camera: {fileID: 330585545}
   _cameraLookTargetOffset: {x: 0, y: 2, z: 0}
@@ -2536,10 +2557,15 @@ MonoBehaviour:
   _jumpScalableForwardSpeed: 0
   _jumpPreGroundingGraceTime: 0.1
   _jumpPostGroundingGraceTime: 0.1
+  <WallJumpSpeed>k__BackingField: 0
   _animator: {fileID: 6177337247456936899}
   currentStateName: 
   _gravity: {x: 0, y: -40, z: 0}
   _height: 1.6
   _keepDistanceFromWall: 0.05
   _ledgeGrabOffsetY: -0.5
+  WaterLayer:
+    serializedVersion: 2
+    m_Bits: 16
+  IsInWater: 0
   _sprintMultiplier: 2
