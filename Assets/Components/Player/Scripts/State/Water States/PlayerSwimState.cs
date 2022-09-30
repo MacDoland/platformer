@@ -27,17 +27,29 @@ public class PlayerSwimState : PlayerBaseState
         float currentVelocityMagnitude = _ctx.Motor.Velocity.magnitude;
 
         // Calculate target velocity
-        Vector3 inputRight = Vector3.Cross(_ctx.MoveInputVector, _ctx.Motor.CharacterUp);
-        Vector3 reorientedInput = Vector3.Cross(Vector3.up, inputRight).normalized * _ctx.MoveInputVector.magnitude;
-        Vector3 targetMovementVelocity = reorientedInput * _ctx.SwimSpeed;
+        // Vector3 inputRight = Vector3.Cross(_ctx.MoveInputVector, _ctx.Motor.CharacterUp);
+        // Vector3 reorientedInput = Vector3.Cross(Vector3.up, inputRight).normalized * _ctx.MoveInputVector.magnitude;
+        Vector3 targetMovementVelocity = _ctx.MoveInputVector * _ctx.SwimSpeed;
+        targetMovementVelocity.y = velocity.y;
 
         // Smooth movement Velocity
         velocity = Vector3.Lerp(velocity, targetMovementVelocity, 1f - Mathf.Exp(-_ctx.StableMovementSharpness * deltaTime));
 
 
         _distanceFromSurface = _ctx.WaterLevel - (_ctx.Motor.Transform.position.y + (_ctx.Height * _ctx.FloatingHeight));
-        _buoyancyY = Mathf.SmoothDamp(_buoyancyY, _distanceFromSurface, ref _tempSpeed, 0.125f);
-        velocity.y = _buoyancyY;
+        
+        velocity += _ctx.Gravity * (1f - _ctx.Buoyancy * _distanceFromSurface) * deltaTime;
+
+        Debug.Log("distance from surface " + _distanceFromSurface);
+
+        
+        //apply water drag
+        velocity *= 1f - _ctx.WaterDrag * _ctx.SubmergedAmount * Time.deltaTime;
+ /* */
+
+
+        // _buoyancyY = Mathf.SmoothDamp(_buoyancyY, _distanceFromSurface, ref _tempSpeed, 0.125f);
+        // velocity.y = _buoyancyY;
 
         _ctx.CameraLookTarget = _ctx.Motor.Transform.position + _ctx.CameraLookTargetOffset;
     }

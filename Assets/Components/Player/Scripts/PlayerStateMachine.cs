@@ -145,6 +145,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     [field: SerializeField] public float SubmergedAmount { get; set; } = 0.5f;
     [field: SerializeField] public float FloatingHeight { get; set; } = 1f;
     [field: SerializeField] public float SwimSpeed { get; set; } = 4f;
+    [field: SerializeField, Range(0f, 10f)] public float WaterDrag { get; set; } = 1f;
+    [field: SerializeField, Min(0)] public float Buoyancy { get; set; } = 1f;
 
     //[Header("Wall Slide")]
     public bool IsWallSliding { get; set; }
@@ -311,7 +313,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         {
             this.SubmergedAmount = Mathf.Clamp((this.WaterLevel - Motor.Transform.position.y) / this.Height, 0f, 1f);
             this.IsInWater = this.SubmergedAmount > this.FloatingHeight;
-            Debug.Log(this.SubmergedAmount);
         }
 
         _currentState.OnTriggerEnter(other);
