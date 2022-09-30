@@ -24,6 +24,7 @@ public abstract class PlayerBaseState
     public abstract void UpdateStateVelocity(ref Vector3 velocity, float deltaTime);
     public abstract void UpdateStateRotation(ref Quaternion rotation, float deltaTime);
     public abstract void OnTriggerEnter(Collider other);
+    public abstract void OnTriggerStay(Collider other);
     public abstract void OnTriggerExit(Collider other);
     public abstract void CheckState();
     public abstract void InitSubState();

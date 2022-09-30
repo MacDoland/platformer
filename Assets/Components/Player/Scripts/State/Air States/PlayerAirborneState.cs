@@ -49,6 +49,11 @@ public class PlayerAirborneState : PlayerBaseState
     {
         _currentSubState.OnTriggerEnter(other);
     }
+    
+    public override void OnTriggerStay(Collider other)
+    {
+        _currentSubState.OnTriggerStay(other);
+    }
 
     public override void OnTriggerExit(Collider other)
     {

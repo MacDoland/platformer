@@ -49,6 +49,9 @@ public class PlayerGroundedState : PlayerBaseState
             SwitchState(_stateFactory.Jump());
             _ctx.JumpRequested = false;
         }
+        else if (_ctx.IsInWater){
+            SwitchState(_stateFactory.InWater());
+        }
         else if (!_ctx.Motor.GroundingStatus.FoundAnyGround)
         {
             SwitchState(_stateFactory.Airborne());
@@ -57,11 +60,16 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void OnTriggerEnter(Collider other)
     {
-        
+         _currentSubState.OnTriggerEnter(other);
+    }
+
+    public override void OnTriggerStay(Collider other)
+    {
+        _currentSubState.OnTriggerStay(other);
     }
 
     public override void OnTriggerExit(Collider other)
     {
-        
+        _currentSubState.OnTriggerExit(other);
     }
 }

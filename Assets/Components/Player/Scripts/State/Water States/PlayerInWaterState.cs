@@ -9,8 +9,12 @@ public class PlayerInWaterState : PlayerBaseState
         InitSubState();
     }
 
-    public override void EnterState(){}
-    public override void ExitState() {}
+    public override void EnterState(){
+        _ctx.Animator.SetBool("inWater", true);
+    }
+    public override void ExitState() {
+        _ctx.Animator.SetBool("inWater", false);
+    }
     public override void UpdateState()
     {
         CheckState();
@@ -29,12 +33,22 @@ public class PlayerInWaterState : PlayerBaseState
     }
     public override void CheckState()
     {
-      
+      if(!_ctx.IsInWater && !_ctx.Motor.GroundingStatus.FoundAnyGround){
+        SwitchState(_stateFactory.Airborne());
+      }
+      else if(!_ctx.IsInWater){
+        SwitchState(_stateFactory.Grounded());
+      }
     }
 
     public override void OnTriggerEnter(Collider other)
     {
         
+    }
+
+    public override void OnTriggerStay(Collider other)
+    {
+       
     }
 
     public override void OnTriggerExit(Collider other)

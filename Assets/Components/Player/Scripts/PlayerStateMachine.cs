@@ -137,10 +137,14 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public RaycastHit LedgeGrabSpaceInfo { get { return _ledgeGrabSpaceInfo; } set { _ledgeGrabSpaceInfo = value; } }
     public RaycastHit LedgeGrabLedgeInfo { get { return _ledgeGrabLedgeInfo; } set { _ledgeGrabLedgeInfo = value; } }
 
-    
+
     [Header("Swim")]
     [field: SerializeField] public LayerMask WaterLayer;
+    [field: SerializeField] public float WaterLevel;
     [field: SerializeField] public bool IsInWater;
+    [field: SerializeField] public float SubmergedAmount { get; set; } = 0.5f;
+    [field: SerializeField] public float FloatingHeight { get; set; } = 1f;
+    [field: SerializeField] public float SwimSpeed { get; set; } = 4f;
 
     //[Header("Wall Slide")]
     public bool IsWallSliding { get; set; }
@@ -291,17 +295,30 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
     public void OnTriggerEnter(Collider other)
     {
-        IsInWater = LayerIsInMask(WaterLayer, other.gameObject.layer);
+        if (LayerIsInMask(WaterLayer, other.gameObject.layer))
+        {
+            this.WaterLevel = other.bounds.center.y;
+        }
+
+
+        _currentState.OnTriggerEnter(other);
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+
+        if (LayerIsInMask(WaterLayer, other.gameObject.layer))
+        {
+            this.SubmergedAmount = Mathf.Clamp((this.WaterLevel - Motor.Transform.position.y) / this.Height, 0f, 1f);
+            this.IsInWater = this.SubmergedAmount > this.FloatingHeight;
+            Debug.Log(this.SubmergedAmount);
+        }
 
         _currentState.OnTriggerEnter(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(LayerIsInMask(WaterLayer, other.gameObject.layer)) {
-            IsInWater = false;
-        }
-
         _currentState.OnTriggerExit(other);
     }
 
@@ -316,7 +333,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         return this.CameraLookTarget;
     }
 
-    private bool LayerIsInMask(LayerMask mask, int layer) {
+    private bool LayerIsInMask(LayerMask mask, int layer)
+    {
         return mask == (mask | (1 << layer));
     }
 

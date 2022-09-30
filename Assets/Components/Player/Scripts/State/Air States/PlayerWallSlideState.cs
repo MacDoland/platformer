@@ -110,4 +110,9 @@ public class PlayerWallSlideState : PlayerBaseState
     {
         
     }
+
+    public override void OnTriggerStay(Collider other)
+    {
+       
+    }
 }

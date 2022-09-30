@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class PlayerSwimState : PlayerBaseState
 {
-    private Ray _surfaceRay;
-    private bool _isOnSurface = false;
-    private RaycastHit _hitInfo;
-    private float distanceFromBodyToSurface = 0.5f;
 
+    private float _distanceFromSurface = 0f;
+    private float _buoyancyY = 0f;
+    private float _tempSpeed;
     public PlayerSwimState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
     : base(currentContext, playerStateFactory, name)
     {
@@ -23,14 +22,24 @@ public class PlayerSwimState : PlayerBaseState
 
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
-        _surfaceRay.origin = _ctx.Motor.Transform.position + Vector3.up * _ctx.Height;
-        _surfaceRay.direction = -Vector3.up;
-        _isOnSurface = !Physics.Raycast(_surfaceRay, out _hitInfo, distanceFromBodyToSurface, _ctx.WaterLayer, QueryTriggerInteraction.Collide);
+
+        _ctx.Animator.SetFloat("speed", _ctx.Motor.Velocity.magnitude);
+        float currentVelocityMagnitude = _ctx.Motor.Velocity.magnitude;
+
+        // Calculate target velocity
+        Vector3 inputRight = Vector3.Cross(_ctx.MoveInputVector, _ctx.Motor.CharacterUp);
+        Vector3 reorientedInput = Vector3.Cross(Vector3.up, inputRight).normalized * _ctx.MoveInputVector.magnitude;
+        Vector3 targetMovementVelocity = reorientedInput * _ctx.SwimSpeed;
+
+        // Smooth movement Velocity
+        velocity = Vector3.Lerp(velocity, targetMovementVelocity, 1f - Mathf.Exp(-_ctx.StableMovementSharpness * deltaTime));
 
 
-        if(!_isOnSurface){
-            Debug.Log("Under water");
-        }
+        _distanceFromSurface = _ctx.WaterLevel - (_ctx.Motor.Transform.position.y + (_ctx.Height * _ctx.FloatingHeight));
+        _buoyancyY = Mathf.SmoothDamp(_buoyancyY, _distanceFromSurface, ref _tempSpeed, 0.125f);
+        velocity.y = _buoyancyY;
+
+        _ctx.CameraLookTarget = _ctx.Motor.Transform.position + _ctx.CameraLookTargetOffset;
     }
 
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
@@ -53,6 +62,11 @@ public class PlayerSwimState : PlayerBaseState
     public override void OnTriggerEnter(Collider other)
     {
         _currentSubState.OnTriggerEnter(other);
+    }
+
+    public override void OnTriggerStay(Collider other)
+    {
+        _currentSubState.OnTriggerStay(other);
     }
 
     public override void OnTriggerExit(Collider other)

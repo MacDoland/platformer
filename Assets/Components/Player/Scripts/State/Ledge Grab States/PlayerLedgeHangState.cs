@@ -62,6 +62,11 @@ public class PlayerLedgeHangState : PlayerBaseState
         
     }
 
+    public override void OnTriggerStay(Collider other)
+    {
+       
+    }
+
     public override void OnTriggerExit(Collider other)
     {
         
