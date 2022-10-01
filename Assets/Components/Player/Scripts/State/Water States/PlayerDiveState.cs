@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerDiveState : PlayerBaseState
 {
     private bool _isDiving = false;
-    private float _exitDelay = .25f;
+    private float _exitDelay = 1f;
     private float _currentDelay = 0f;
 
     public PlayerDiveState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
@@ -16,6 +16,7 @@ public class PlayerDiveState : PlayerBaseState
     public override void EnterState()
     {
         _currentDelay = 0f;
+        _ctx.WaterCamera.Priority = 100;
     }
     public override void ExitState()
     {

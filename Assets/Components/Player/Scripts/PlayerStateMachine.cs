@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, ICameraTarget
 {
@@ -145,9 +146,14 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     [field: SerializeField] public float SubmergedAmount { get; set; } = 0.5f;
     [field: SerializeField] public float FloatingHeight { get; set; } = 1f;
     [field: SerializeField] public float SwimSpeed { get; set; } = 4f;
+    [field: SerializeField] public float DiveSwimSpeed { get; set; } = 6f;
+    [field: SerializeField] public float MaxDiveSwimSpeed { get; set; } = 8f;
     [field: SerializeField, Range(0f, 10f)] public float WaterDrag { get; set; } = 1f;
     [field: SerializeField, Range(0f, 10f)] public float UnderWaterDrag { get; set; } = 1f;
     [field: SerializeField, Min(0)] public float Buoyancy { get; set; } = 1f;
+
+    [field: SerializeField] public CinemachineVirtualCameraBase GeneralCamera { get; set; }
+    [field: SerializeField] public CinemachineVirtualCameraBase WaterCamera { get; set; }
 
     //[Header("Wall Slide")]
     public bool IsWallSliding { get; set; }
