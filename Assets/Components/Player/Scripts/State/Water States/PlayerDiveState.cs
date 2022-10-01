@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerDiveState : PlayerBaseState
 {
     private bool _isDiving = false;
+    private float _exitDelay = .25f;
+    private float _currentDelay = 0f;
 
     public PlayerDiveState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory, string name)
     : base(currentContext, playerStateFactory, name)
@@ -13,9 +15,12 @@ public class PlayerDiveState : PlayerBaseState
 
     public override void EnterState()
     {
-
+        _currentDelay = 0f;
     }
-    public override void ExitState() { }
+    public override void ExitState()
+    {
+        _currentDelay = 0f;
+    }
     public override void UpdateState()
     {
         CheckState();
@@ -23,6 +28,8 @@ public class PlayerDiveState : PlayerBaseState
 
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
+        _currentDelay += deltaTime;
+
         if (!_isDiving)
         {
             velocity -= Vector3.up * 4f;
@@ -32,6 +39,11 @@ public class PlayerDiveState : PlayerBaseState
 
         //apply water drag
         velocity *= 1f - _ctx.WaterDrag * _ctx.SubmergedAmount * Time.deltaTime;
+
+        if (_currentDelay > _exitDelay)
+        {
+            SwitchState(_stateFactory.DiveSwim());
+        }
     }
 
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)

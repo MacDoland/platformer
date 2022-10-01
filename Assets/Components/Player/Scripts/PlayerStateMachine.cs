@@ -146,6 +146,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     [field: SerializeField] public float FloatingHeight { get; set; } = 1f;
     [field: SerializeField] public float SwimSpeed { get; set; } = 4f;
     [field: SerializeField, Range(0f, 10f)] public float WaterDrag { get; set; } = 1f;
+    [field: SerializeField, Range(0f, 10f)] public float UnderWaterDrag { get; set; } = 1f;
     [field: SerializeField, Min(0)] public float Buoyancy { get; set; } = 1f;
 
     //[Header("Wall Slide")]

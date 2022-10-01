@@ -10,4 +10,8 @@ static public class VectorExtensions
     {
         return new Vector3(0, vec.y, 0);
     }
+    static public Vector3 ZOnly(this Vector3 vec)
+    {
+        return new Vector3(0, 0, vec.z);
+    }
 }

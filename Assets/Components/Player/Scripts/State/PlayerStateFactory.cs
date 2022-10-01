@@ -15,7 +15,8 @@ enum PlayerStates
     ledgeHang, //sub
     ledgeClimb, //sub
     swim, // sub,
-    dive // sub
+    dive, // sub
+    diveSwim // sub
 }
 
 public class PlayerStateFactory
@@ -36,6 +37,7 @@ public class PlayerStateFactory
         _states[PlayerStates.ledgeClimb] = new PlayerLedgeClimbState(_context, this, "LedgeClimb");
         _states[PlayerStates.swim] = new PlayerSwimState(_context, this, "Swim");
         _states[PlayerStates.dive] = new PlayerDiveState(_context, this, "Dive");
+        _states[PlayerStates.diveSwim] = new PlayerDiveSwimState(_context, this, "DiveSwim");
 
         // root states
         _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this, "Grounded");
@@ -59,7 +61,7 @@ public class PlayerStateFactory
         return _states[PlayerStates.ledgeGrab];
     }
 
-        public PlayerBaseState InWater()
+    public PlayerBaseState InWater()
     {
         return _states[PlayerStates.inWater];
     }
@@ -106,5 +108,10 @@ public class PlayerStateFactory
     public PlayerBaseState Dive()
     {
         return _states[PlayerStates.dive];
+    }
+
+    public PlayerBaseState DiveSwim()
+    {
+        return _states[PlayerStates.diveSwim];
     }
 }
