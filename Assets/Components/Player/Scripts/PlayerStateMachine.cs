@@ -345,7 +345,13 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     /// </summary>
     void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(Motor.transform.position + Vector3.up * 1.6f, 0.2f);
-        Gizmos.DrawSphere(Motor.transform.position + -Vector3.up * 0.5f, 0.2f);
+        if (Application.IsPlaying(this.gameObject))
+        {
+            Gizmos.DrawSphere(Motor.transform.position + Vector3.up * 1.6f, 0.2f);
+            Gizmos.DrawSphere(Motor.transform.position + -Vector3.up * 0.5f, 0.2f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(new Vector3(Motor.Transform.position.x, WaterLevel, Motor.Transform.position.z) - (Vector3.up * Height) + (Vector3.up * Height * FloatingHeight), 0.125f);
+        }
+        //- Motor.Transform.position.YOnly() + Vector3.up * (Height * FloatingHeight)    
     }
 }

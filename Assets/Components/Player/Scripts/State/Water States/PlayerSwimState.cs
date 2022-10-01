@@ -35,17 +35,26 @@ public class PlayerSwimState : PlayerBaseState
         // Smooth movement Velocity
         velocity = Vector3.Lerp(velocity, targetMovementVelocity, 1f - Mathf.Exp(-_ctx.StableMovementSharpness * deltaTime));
 
+        _distanceFromSurface = _ctx.WaterLevel - (_ctx.Height * (_ctx.FloatingHeight) - 0.5f) - _ctx.Motor.Transform.position.y;
 
-        _distanceFromSurface = _ctx.WaterLevel - (_ctx.Motor.Transform.position.y + (_ctx.Height * _ctx.FloatingHeight));
-        
+
+        //_distanceFromSurface =  (_ctx.WaterLevel - _ctx.Height +   _ctx.Height * _ctx.FloatingHeight) - _ctx.Motor.Transform.position.y;
+        //_distanceFromSurface = _ctx.WaterLevel - (_ctx.Motor.Transform.position.y + (_ctx.Height * (1f-_ctx.FloatingHeight)));
+
         velocity += _ctx.Gravity * (1f - _ctx.Buoyancy * _distanceFromSurface) * deltaTime;
+
+        if (velocity.y > 0)
+        {
+            // applying extra drag to avoid breaking surface
+            velocity *= 1f - _ctx.WaterDrag * Time.deltaTime; 
+        }
 
         Debug.Log("distance from surface " + _distanceFromSurface);
 
-        
+
         //apply water drag
         velocity *= 1f - _ctx.WaterDrag * _ctx.SubmergedAmount * Time.deltaTime;
- /* */
+        /* */
 
 
         // _buoyancyY = Mathf.SmoothDamp(_buoyancyY, _distanceFromSurface, ref _tempSpeed, 0.125f);
