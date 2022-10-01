@@ -174,6 +174,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
         _platformerInputActions.Player.Jump.performed += PerformJump;
         _platformerInputActions.Player.Jump.Enable();
+        _platformerInputActions.Player.ButtonWest.Enable();
         _platformerInputActions.Player.Sprint.Enable();
 
     }
@@ -183,6 +184,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         _playerMovement.Disable();
         _platformerInputActions.Player.Jump.Disable();
         _platformerInputActions.Player.Sprint.Disable();
+        _platformerInputActions.Player.ButtonWest.Disable();
     }
 
     // Update is called once per frame

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerSwimState : PlayerBaseState
 {
@@ -13,8 +15,18 @@ public class PlayerSwimState : PlayerBaseState
         InitSubState();
     }
 
-    public override void EnterState() { }
-    public override void ExitState() { }
+    public override void EnterState()
+    {
+        _ctx.Motor.SetGroundSolvingActivation(false);
+        _ctx.InputActions.Player.ButtonWest.performed += Dive;
+        Debug.Log("Enter Swim State");
+    }
+    public override void ExitState()
+    {
+        _ctx.Motor.SetGroundSolvingActivation(true);
+        _ctx.InputActions.Player.ButtonWest.performed -= Dive;
+        Debug.Log("Exit Swim State");
+    }
     public override void UpdateState()
     {
         CheckState();
@@ -46,10 +58,8 @@ public class PlayerSwimState : PlayerBaseState
         if (velocity.y > 0)
         {
             // applying extra drag to avoid breaking surface
-            velocity *= 1f - _ctx.WaterDrag * Time.deltaTime; 
+            velocity *= 1f - _ctx.WaterDrag * Time.deltaTime;
         }
-
-        Debug.Log("distance from surface " + _distanceFromSurface);
 
 
         //apply water drag
@@ -93,5 +103,10 @@ public class PlayerSwimState : PlayerBaseState
     public override void OnTriggerExit(Collider other)
     {
         _currentSubState.OnTriggerExit(other);
+    }
+
+    public void Dive(InputAction.CallbackContext context) {
+        Debug.Log("DIVE DIVE DIVE");
+        SwitchState(_stateFactory.Dive());
     }
 }

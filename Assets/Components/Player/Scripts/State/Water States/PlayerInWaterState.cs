@@ -11,6 +11,7 @@ public class PlayerInWaterState : PlayerBaseState
 
     public override void EnterState(){
         _ctx.Animator.SetBool("inWater", true);
+        _currentSubState.EnterState();
     }
     public override void ExitState() {
         _ctx.Animator.SetBool("inWater", false);
