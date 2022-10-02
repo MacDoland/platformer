@@ -15,6 +15,7 @@ public class PlayerDiveState : PlayerBaseState
 
     public override void EnterState()
     {
+        _isDiving = false;
         _currentDelay = 0f;
         _ctx.WaterCamera.Priority = 100;
     }
