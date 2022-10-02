@@ -74,6 +74,8 @@ public class PlayerLedgeClimbState : PlayerBaseState
     {
     }
 
+    public override void AfterUpdate(float deltaTime) { }
+
     public override void InitSubState()
     {
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerGroundedState : PlayerBaseState
 {
@@ -14,12 +15,13 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState()
     {
-        //Debug.Log("Entering Grounded State");
     }
-    public override void ExitState() { }
+    public override void ExitState()
+    {
+    }
     public override void UpdateState()
     {
-        CheckState();
+       CheckState();
     }
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
@@ -38,6 +40,13 @@ public class PlayerGroundedState : PlayerBaseState
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {
     }
+
+    public override void AfterUpdate(float deltaTime)
+    {
+
+        _currentSubState.AfterUpdate(deltaTime);
+    }
+
     public override void InitSubState()
     {
         SetSubState(_stateFactory.Move());
@@ -49,7 +58,8 @@ public class PlayerGroundedState : PlayerBaseState
             SwitchState(_stateFactory.Jump());
             _ctx.JumpRequested = false;
         }
-        else if (_ctx.IsInWater){
+        else if (_ctx.IsInWater)
+        {
             SwitchState(_stateFactory.InWater());
         }
         else if (!_ctx.Motor.GroundingStatus.FoundAnyGround)
@@ -58,9 +68,15 @@ public class PlayerGroundedState : PlayerBaseState
         }
     }
 
+    public void PerformJump(InputAction.CallbackContext context)
+    {
+        _ctx.JumpRequested = true;
+        _ctx.TimeSinceJumpRequested = 0f;
+    }
+
     public override void OnTriggerEnter(Collider other)
     {
-         _currentSubState.OnTriggerEnter(other);
+        _currentSubState.OnTriggerEnter(other);
     }
 
     public override void OnTriggerStay(Collider other)

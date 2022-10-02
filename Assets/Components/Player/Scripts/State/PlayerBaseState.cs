@@ -23,6 +23,7 @@ public abstract class PlayerBaseState
     public abstract void UpdateState();
     public abstract void UpdateStateVelocity(ref Vector3 velocity, float deltaTime);
     public abstract void UpdateStateRotation(ref Quaternion rotation, float deltaTime);
+    public abstract void AfterUpdate(float deltaTime);
     public abstract void OnTriggerEnter(Collider other);
     public abstract void OnTriggerStay(Collider other);
     public abstract void OnTriggerExit(Collider other);
@@ -36,6 +37,16 @@ public abstract class PlayerBaseState
         if (_currentSubState != null)
         {
             _currentSubState.UpdateStates();
+        }
+    }
+
+    public void AfterUpdateStates(float deltaTime)
+    {
+        AfterUpdate(deltaTime);
+
+        if (_currentSubState != null)
+        {
+            _currentSubState.AfterUpdate(deltaTime);
         }
     }
 

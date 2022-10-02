@@ -48,6 +48,12 @@ public class PlayerMoveState : PlayerBaseState
             rotation = Quaternion.LookRotation(smoothedLookInputDirection, _ctx.Motor.CharacterUp);
         }
     }
+
+    public override void AfterUpdate(float deltaTime)
+    {
+    }
+
+
     public override void InitSubState() { }
     public override void CheckState()
     {
@@ -55,16 +61,16 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void OnTriggerEnter(Collider other)
     {
-        
+
     }
 
     public override void OnTriggerStay(Collider other)
     {
-       
+
     }
 
     public override void OnTriggerExit(Collider other)
     {
-        
+
     }
 }

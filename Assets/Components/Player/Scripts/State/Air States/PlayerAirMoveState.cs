@@ -110,6 +110,8 @@ public class PlayerAirMoveState : PlayerBaseState
         }
     }
 
+        public override void AfterUpdate(float deltaTime){}
+
     public override void InitSubState() { }
     public override void CheckState()
     {

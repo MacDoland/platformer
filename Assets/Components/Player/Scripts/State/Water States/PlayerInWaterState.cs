@@ -33,6 +33,11 @@ public class PlayerInWaterState : PlayerBaseState
     {
     }
 
+    public override void AfterUpdate(float deltaTime)
+    {
+        _currentSubState.AfterUpdate(deltaTime);
+    }
+
     public override void InitSubState()
     {
         SetSubState(_stateFactory.Swim());

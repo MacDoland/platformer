@@ -1251,7 +1251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.102517255, y: -0.000000029952513, z: 0.0000000030869138,
+  m_LocalRotation: {x: 0.102517255, y: 0.000000029952513, z: -0.0000000030869138,
     w: 0.99473125}
   m_LocalPosition: {x: 0, y: 2.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2415,7 +2415,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955727375}
-  m_LocalRotation: {x: 0.10251726, y: -0.00000000427893, z: 4.4098764e-10, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251726, y: 0.0000000042789328, z: -4.409879e-10, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2493,7 +2493,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096494514}
-  m_LocalRotation: {x: 0.10251726, y: -0.0000000042789328, z: 4.409879e-10, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251726, y: 0.00000000427893, z: -4.4098764e-10, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2923,19 +2923,21 @@ MonoBehaviour:
   <MaxStableMoveSpeed>k__BackingField: 6
   <StableMovementSharpness>k__BackingField: 15
   <OrientationSharpness>k__BackingField: 10
+  <Gravity>k__BackingField: -40
   <MaxAirMoveSpeed>k__BackingField: 6
   <AirAccelerationSpeed>k__BackingField: 30
   <Drag>k__BackingField: 1
-  <AllowJumpingWhenSliding>k__BackingField: 0
+  <AllowJumpingWhenSliding>k__BackingField: 1
   <JumpUpSpeed>k__BackingField: 16
   <JumpScalableForwardSpeed>k__BackingField: 0
   <JumpPreGroundingGraceTime>k__BackingField: 0.1
   <JumpPostGroundingGraceTime>k__BackingField: 0.1
   <WallJumpSpeed>k__BackingField: 4
-  _gravity: {x: 0, y: -40, z: 0}
-  _height: 1.6
-  _keepDistanceFromWall: 0.05
-  _ledgeGrabOffsetY: -0.1
+  <Height>k__BackingField: 1.6
+  <KeepDistanceFromWall>k__BackingField: 0
+  <ReachHeight>k__BackingField: 1
+  <ReachDistance>k__BackingField: 0.5
+  <LedgeGrabOffsetY>k__BackingField: -0.18
   WaterLayer:
     serializedVersion: 2
     m_Bits: 16
@@ -2950,4 +2952,3 @@ MonoBehaviour:
   <WaterDrag>k__BackingField: 4
   <UnderWaterDrag>k__BackingField: 2
   <Buoyancy>k__BackingField: 1.2
-  _sprintMultiplier: 2

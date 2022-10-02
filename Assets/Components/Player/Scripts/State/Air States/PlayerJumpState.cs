@@ -50,6 +50,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {
     }
+    public override void AfterUpdate(float deltaTime) { }
     public override void InitSubState() { }
     public override void CheckState()
     {

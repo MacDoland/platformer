@@ -69,6 +69,8 @@ public class PlayerDiveState : PlayerBaseState
         rotation = Quaternion.Euler(_eulerRotation);
     }
 
+    public override void AfterUpdate(float deltaTime) { }
+
     public override void InitSubState() { }
     public override void CheckState()
     {

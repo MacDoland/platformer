@@ -25,9 +25,11 @@ public class PlayerAirborneState : PlayerBaseState
         velocity *= (1f / (1f + (_ctx.Drag * deltaTime)));
     }
 
-    public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
+    public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime){}
+
+    public override void AfterUpdate(float deltaTime)
     {
-       
+        _currentSubState.AfterUpdate(deltaTime);
     }
 
     public override void InitSubState()
@@ -40,8 +42,9 @@ public class PlayerAirborneState : PlayerBaseState
         {
             SwitchState(_stateFactory.Grounded());
         }
-        else if (_ctx.IsInWater) {
-             SwitchState(_stateFactory.InWater());
+        else if (_ctx.IsInWater)
+        {
+            SwitchState(_stateFactory.InWater());
         }
     }
 
@@ -49,7 +52,7 @@ public class PlayerAirborneState : PlayerBaseState
     {
         _currentSubState.OnTriggerEnter(other);
     }
-    
+
     public override void OnTriggerStay(Collider other)
     {
         _currentSubState.OnTriggerStay(other);

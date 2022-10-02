@@ -42,6 +42,7 @@ public class PlayerLedgeHangState : PlayerBaseState
     public override void UpdateStateRotation(ref Quaternion rotation, float deltaTime)
     {
     }
+    public override void AfterUpdate(float deltaTime) { }
 
     public override void InitSubState()
     {

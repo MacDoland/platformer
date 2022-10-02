@@ -102,6 +102,7 @@ public class PlayerDiveSwimState : PlayerBaseState
 
         rotation = Quaternion.Euler(new Vector3(_xRotation, _yRotation, 0));
     }
+    public override void AfterUpdate(float deltaTime) { }
 
     public override void InitSubState() { }
     public override void CheckState()

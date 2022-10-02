@@ -114,6 +114,7 @@ public class PlayerSwimState : PlayerBaseState
             _orientationReached = true;
         }
     }
+    public override void AfterUpdate(float deltaTime) { }
 
     public override void InitSubState() { }
     public override void CheckState()

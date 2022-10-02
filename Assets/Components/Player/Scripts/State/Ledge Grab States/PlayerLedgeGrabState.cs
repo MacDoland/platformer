@@ -12,12 +12,12 @@ public class PlayerLedgeGrabState : PlayerBaseState
 
     public override void EnterState()
     {
-         SwitchState(_stateFactory.LedgeHang());
+        SwitchState(_stateFactory.LedgeHang());
     }
     public override void ExitState()
     {
-         _ctx.IsLedgeClimbComplete = false;
-         _ctx.Animator.SetBool("isLedgeGrabbing", false);
+        _ctx.IsLedgeClimbComplete = false;
+        _ctx.Animator.SetBool("isLedgeGrabbing", false);
     }
     public override void UpdateState()
     {
@@ -31,29 +31,35 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
     }
 
+    public override void AfterUpdate(float deltaTime)
+    {
+        _currentSubState.AfterUpdate(deltaTime);
+    }
+
     public override void InitSubState()
     {
         SetSubState(_stateFactory.LedgeHang());
     }
     public override void CheckState()
     {
-        if(_ctx.IsLedgeClimbComplete){
+        if (_ctx.IsLedgeClimbComplete)
+        {
             SwitchState(_stateFactory.Grounded());
         }
     }
 
     public override void OnTriggerEnter(Collider other)
     {
-        
+
     }
-    
+
     public override void OnTriggerStay(Collider other)
     {
-       
+
     }
 
     public override void OnTriggerExit(Collider other)
     {
-        
+
     }
 }

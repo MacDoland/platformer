@@ -68,9 +68,9 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     //Ledge Grabbing
     [field: SerializeField, Header("Ledge Grab"), ReadOnly] public float Height { get; private set; } = 1.6f;
     [field: SerializeField, Range(0f, 1f)] public float KeepDistanceFromWall { get; private set; } = 0.05f;
-    [field: SerializeField, ReadOnly] public float ReachHeight { get; private set; } = 1f;
-    [field: SerializeField, ReadOnly] public float ReachDistance { get; private set; } = 0.5f;
-    [field: SerializeField, ReadOnly] public float LedgeGrabOffsetY { get; private set; } = -0.5f;
+    [field: SerializeField, Range(0f, 2f)] public float ReachHeight { get; private set; } = 1f;
+    [field: SerializeField, Range(0f, 1f)] public float ReachDistance { get; private set; } = 0.5f;
+    [field: SerializeField, Range(-1, 1f)] public float LedgeGrabOffsetY { get; private set; } = -0.5f;
 
     private RaycastHit _ledgeGrabWallInfo;
     private RaycastHit _ledgeGrabSpaceInfo;
@@ -79,7 +79,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public RaycastHit LedgeGrabSpaceInfo { get { return _ledgeGrabSpaceInfo; } set { _ledgeGrabSpaceInfo = value; } }
     public RaycastHit LedgeGrabLedgeInfo { get { return _ledgeGrabLedgeInfo; } set { _ledgeGrabLedgeInfo = value; } }
 
-
+    //Swim
     [Header("Swim")]
     [field: SerializeField] public LayerMask WaterLayer;
     [field: SerializeField] public float WaterLevel;
@@ -120,7 +120,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         this.InputActions.Player.Jump.Enable();
         this.InputActions.Player.ButtonWest.Enable();
         this.InputActions.Player.Sprint.Enable();
-
     }
 
     void OnDisable()
@@ -148,6 +147,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         #endregion
         this.MoveInputVector = cameraPlanarRotation * new Vector3(inputMovement.x, 0, inputMovement.y);
         this.LookInputVector = this.MoveInputVector.normalized;
+
+        // this.CurrentState.UpdateStates();
     }
 
     public void AfterCharacterUpdate(float deltaTime)
@@ -172,8 +173,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
             // Keep track of time since we were last able to jump (for grace period)
             this.TimeSinceLastAbleToJump += deltaTime;
         }
-
-        this.CurrentState.UpdateStates();
+this.CurrentState.UpdateStates();
+        //this.CurrentState.AfterUpdateStates(deltaTime);
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
