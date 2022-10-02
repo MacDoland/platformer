@@ -42,6 +42,13 @@ public class PlayerDiveState : PlayerBaseState
             velocity -= Vector3.up * 4f;
         }
 
+        if (_ctx.InputActions.Player.ButtonWest.IsPressed() && velocity.magnitude < _ctx.MaxDiveSwimSpeed)
+        {
+            velocity += _ctx.Motor.Transform.forward * _ctx.DiveSwimSpeed * deltaTime;
+        }
+
+        velocity *= 1f - _ctx.UnderWaterDrag * _ctx.SubmergedAmount * Time.deltaTime;
+
         _isDiving = true;
 
         //apply water drag

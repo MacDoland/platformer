@@ -38,8 +38,8 @@ public class PlayerDiveSwimState : PlayerBaseState
         Debug.Log("Exit Dive Swim State");
         _switchState = false;
 
-        _ctx.Motor.SetRotation(Quaternion.Euler(new Vector3(0, _ctx.Motor.Transform.eulerAngles.y, 0)));
-        _ctx.GeneralCamera.ForceCameraPosition(_ctx.Motor.Transform.position + (Vector3.up * 8f) + _ctx.Motor.Transform.forward * -12f, Quaternion.LookRotation(_ctx.Motor.Transform.forward, Vector3.up));
+        var forwardVector = Vector3.ProjectOnPlane(_ctx.Motor.Transform.forward * -1f, Vector3.up);
+        _ctx.GeneralCamera.ForceCameraPosition(_ctx.Motor.Transform.position + (Vector3.up * 8f) + forwardVector * 12f, Quaternion.LookRotation(_ctx.Motor.Transform.forward, Vector3.up));
         _ctx.WaterCamera.Priority = 0;
 
     }
@@ -53,12 +53,13 @@ public class PlayerDiveSwimState : PlayerBaseState
 
         _ctx.Animator.SetFloat("speed", _ctx.Motor.Velocity.magnitude);
 
-        if (_ctx.InputActions.Player.Jump.IsPressed() && velocity.magnitude < _ctx.MaxDiveSwimSpeed)
+        if (_ctx.InputActions.Player.ButtonWest.IsPressed() && velocity.magnitude < _ctx.MaxDiveSwimSpeed)
         {
             velocity += _ctx.Motor.Transform.forward * _ctx.DiveSwimSpeed * deltaTime;
         }
 
-        velocity *= 1f - _ctx.UnderWaterDrag * _ctx.SubmergedAmount * Time.deltaTime;
+
+        velocity *= 1f - _ctx.UnderWaterDrag * Time.deltaTime;
 
         _ctx.CameraLookTarget = _ctx.Motor.Transform.position + _ctx.CameraLookTargetOffset;
 
