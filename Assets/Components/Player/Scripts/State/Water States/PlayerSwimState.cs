@@ -64,7 +64,7 @@ public class PlayerSwimState : PlayerBaseState
         //_distanceFromSurface =  (_ctx.WaterLevel - _ctx.Height +   _ctx.Height * _ctx.FloatingHeight) - _ctx.Motor.Transform.position.y;
         //_distanceFromSurface = _ctx.WaterLevel - (_ctx.Motor.Transform.position.y + (_ctx.Height * (1f-_ctx.FloatingHeight)));
 
-        velocity += _ctx.Gravity * (1f - _ctx.Buoyancy * _distanceFromSurface) * deltaTime;
+        velocity += Vector3.up * _ctx.Gravity * (1f - _ctx.Buoyancy * _distanceFromSurface) * deltaTime;
 
 
         if (velocity.y > 0)

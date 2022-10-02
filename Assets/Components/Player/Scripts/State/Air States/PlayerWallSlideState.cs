@@ -32,7 +32,6 @@ public class PlayerWallSlideState : PlayerBaseState
     }
     public override void ExitState()
     {
-        _ctx.IsWallSliding = false;
         _wallJumpPerformed = false;
         _ctx.Animator.SetBool("wallSlide", false);
         _ctx.InputActions.Player.Jump.performed -= WallJump;

@@ -21,7 +21,7 @@ public class PlayerAirborneState : PlayerBaseState
 
     public override void UpdateStateVelocity(ref Vector3 velocity, float deltaTime)
     {
-        velocity += _ctx.Gravity * deltaTime;
+        velocity += Vector3.up * _ctx.Gravity * deltaTime;
         velocity *= (1f / (1f + (_ctx.Drag * deltaTime)));
     }
 

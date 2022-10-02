@@ -51,11 +51,6 @@ public class PlayerMoveState : PlayerBaseState
     public override void InitSubState() { }
     public override void CheckState()
     {
-
-        if (_ctx.SprintButtonHeld)
-        {
-            SwitchState(_stateFactory.Sprint());
-        }
     }
 
     public override void OnTriggerEnter(Collider other)

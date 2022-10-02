@@ -14,12 +14,12 @@ public partial class PlayerStateMachine
     }
     private IEnumerator MovePlayerToClimbSpot()
     {
-        _animator.SetBool("ledgeClimbUp", false);
-        _animator.SetBool("isLedgeGrabbing", false);
+        this.Animator.SetBool("ledgeClimbUp", false);
+        this.Animator.SetBool("isLedgeGrabbing", false);
         yield return null;
 
         this.Motor.SetPosition(_ledgeGrabLedgeInfo.point);
-        _animator.SetBool("isGrounded", true);
+        this.Animator.SetBool("isGrounded", true);
         _ledgeClimbComplete = true;
     }
 }

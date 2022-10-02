@@ -894,7 +894,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125152929}
-  m_LocalRotation: {x: 0.056171816, y: -0.0000000021474018, z: 1.2081419e-10, w: 0.99842113}
+  m_LocalRotation: {x: 0.056171816, y: 0.000000002147402, z: -1.2081422e-10, w: 0.99842113}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1251,7 +1251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.102517255, y: 0.000000029952513, z: -0.0000000030869138,
+  m_LocalRotation: {x: 0.102517255, y: -0.000000029952513, z: 0.0000000030869138,
     w: 0.99473125}
   m_LocalPosition: {x: 0, y: 2.5, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -2415,7 +2415,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955727375}
-  m_LocalRotation: {x: 0.10251726, y: 0.0000000042789328, z: -4.409879e-10, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251726, y: -0.00000000427893, z: 4.4098764e-10, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2493,7 +2493,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096494514}
-  m_LocalRotation: {x: 0.10251726, y: 0.00000000427893, z: -4.4098764e-10, w: 0.99473125}
+  m_LocalRotation: {x: 0.10251726, y: -0.0000000042789328, z: 4.409879e-10, w: 0.99473125}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2907,6 +2907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdc7d26d9c3d084a99e562ef796428e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentStateName: 
+  <Animator>k__BackingField: {fileID: 6177337247456936899}
   <Motor>k__BackingField: {fileID: 114967585936968975}
   <Camera>k__BackingField: {fileID: 330585545}
   <CameraLookTargetOffset>k__BackingField: {x: 0, y: 2, z: 0}
@@ -2921,17 +2923,15 @@ MonoBehaviour:
   <MaxStableMoveSpeed>k__BackingField: 6
   <StableMovementSharpness>k__BackingField: 15
   <OrientationSharpness>k__BackingField: 10
-  _maxAirMoveSpeed: 6
-  _airAccelerationSpeed: 30
-  _drag: 1
-  _allowJumpingWhenSliding: 1
-  _jumpUpSpeed: 16
-  _jumpScalableForwardSpeed: 0
-  _jumpPreGroundingGraceTime: 0.1
-  _jumpPostGroundingGraceTime: 0.1
+  <MaxAirMoveSpeed>k__BackingField: 6
+  <AirAccelerationSpeed>k__BackingField: 30
+  <Drag>k__BackingField: 1
+  <AllowJumpingWhenSliding>k__BackingField: 0
+  <JumpUpSpeed>k__BackingField: 16
+  <JumpScalableForwardSpeed>k__BackingField: 0
+  <JumpPreGroundingGraceTime>k__BackingField: 0.1
+  <JumpPostGroundingGraceTime>k__BackingField: 0.1
   <WallJumpSpeed>k__BackingField: 4
-  _animator: {fileID: 6177337247456936899}
-  currentStateName: 
   _gravity: {x: 0, y: -40, z: 0}
   _height: 1.6
   _keepDistanceFromWall: 0.05
