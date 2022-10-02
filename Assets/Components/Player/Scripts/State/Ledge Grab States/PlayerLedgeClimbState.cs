@@ -18,7 +18,7 @@ public partial class PlayerStateMachine
         _animator.SetBool("isLedgeGrabbing", false);
         yield return null;
 
-        _motor.SetPosition(_ledgeGrabLedgeInfo.point);
+        this.Motor.SetPosition(_ledgeGrabLedgeInfo.point);
         _animator.SetBool("isGrounded", true);
         _ledgeClimbComplete = true;
     }

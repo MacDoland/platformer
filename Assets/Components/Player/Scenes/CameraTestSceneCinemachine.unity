@@ -2907,19 +2907,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdc7d26d9c3d084a99e562ef796428e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentVelocity: {x: 0, y: 0, z: 0}
-  _motor: {fileID: 114967585936968975}
-  _camera: {fileID: 330585545}
-  _cameraLookTargetOffset: {x: 0, y: 2, z: 0}
-  _layers:
+  <Motor>k__BackingField: {fileID: 114967585936968975}
+  <Camera>k__BackingField: {fileID: 330585545}
+  <CameraLookTargetOffset>k__BackingField: {x: 0, y: 2, z: 0}
+  <GeneralCamera>k__BackingField: {fileID: 140271040}
+  <WaterCamera>k__BackingField: {fileID: 1514798888}
+  <Layers>k__BackingField:
     serializedVersion: 2
     m_Bits: 1
-  _playerLayer:
+  <PlayerLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
-  _maxStableMoveSpeed: 6
-  _stableMovementSharpness: 15
-  _orientationSharpness: 10
+  <MaxStableMoveSpeed>k__BackingField: 6
+  <StableMovementSharpness>k__BackingField: 15
+  <OrientationSharpness>k__BackingField: 10
   _maxAirMoveSpeed: 6
   _airAccelerationSpeed: 30
   _drag: 1
@@ -2949,6 +2950,4 @@ MonoBehaviour:
   <WaterDrag>k__BackingField: 4
   <UnderWaterDrag>k__BackingField: 2
   <Buoyancy>k__BackingField: 1.2
-  <GeneralCamera>k__BackingField: {fileID: 140271040}
-  <WaterCamera>k__BackingField: {fileID: 1514798888}
   _sprintMultiplier: 2

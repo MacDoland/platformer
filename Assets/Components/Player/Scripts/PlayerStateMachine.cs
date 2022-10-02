@@ -7,81 +7,47 @@ using Cinemachine;
 
 public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, ICameraTarget
 {
-    [SerializeField] private Vector3 _currentVelocity;
+    //state
+    private PlayerStateFactory _states;
+    [field: SerializeField, Header("State"), ReadOnly] private string CurrentStateName;
+    [field: SerializeField] public PlayerBaseState CurrentState { get; set; }
 
-    [Header("Motor")]
-    [SerializeField]
-    private KinematicCharacterMotor _motor;
-    public KinematicCharacterMotor Motor { get { return _motor; } }
+    //Motor - handles velocity, collisions, ground detection etc
+    [field: SerializeField, Header("Motor")] public KinematicCharacterMotor Motor { get; private set; }
 
-    [Header("Camera")]
-    [SerializeField]
-    private Camera _camera;
-    [SerializeField] private Vector3 _cameraLookTargetOffset = new Vector3(0, 2f, 0);
-    public Camera Camera { get { return _camera; } }
-    public Vector3 CameraLookTarget { get; set; }
-    public Vector3 CameraLookTargetOffset { get { return _cameraLookTargetOffset; } }
+    [field: SerializeField, Header("Camera")] public Camera Camera { get; private set; }
+    [field: SerializeField, Tooltip("Placement of the virtual look target for the player camera.")]
+    public Vector3 CameraLookTargetOffset { get; private set; } = new Vector3(0, 2f, 0);
+    [field: SerializeField] public CinemachineVirtualCameraBase GeneralCamera { get; set; }
+    [field: SerializeField] public CinemachineVirtualCameraBase WaterCamera { get; set; }
+
     public Vector3 PlayerCameraViewPosition { get; private set; }
+    public Vector3 CameraLookTarget { get; set; }
 
+    [field: SerializeField, Header("Collision Layers")] public LayerMask Layers { get; private set; }
+    [field: SerializeField] public LayerMask PlayerLayer { get; private set; }
 
-    [Header("Collision Layers")]
-    [SerializeField]
-    private LayerMask _layers;
-    public LayerMask Layers { get { return _layers; } }
+    [field: SerializeField, Header("Ground Movement"), Range(0f, 20f)] public float MaxStableMoveSpeed { get; private set; } = 6f;
+    [field: SerializeField, Range(0f, 30f)] public float StableMovementSharpness { get; set; } = 15f;
+    [field: SerializeField, Range(0f, 30f)] public float OrientationSharpness { get; private set; } = 10f;
 
-    [SerializeField]
-    private LayerMask _playerLayer;
-    public LayerMask PlayerLayer { get { return _playerLayer; } }
+    [field: SerializeField, Header("Air Movement"), Range(0f, 20f)] public float MaxAirMoveSpeed { get; private set; } = 6f;
+    [field: SerializeField, Range(0f, 50f)] public float AirAccelerationSpeed { get; private set; } = 30f;
+    [field: SerializeField, Range(0f, 10f)] public float Drag { get; private set; } = 1f;
 
-    private Ray _groundHeightRay;
-    private RaycastHit _groundHeightRayHitInfo;
-    public float DistanceFromGround { get; private set; }
-    public Vector3 GroundPointUnderneath { get; private set; }
+    public bool JumpRequested { get; set; } = false;
+    public bool JumpConsumed { get; set; } = false;
+    public bool JumpedThisFrame { get; set; } = false;
+    public float TimeSinceLastAbleToJump { get; set; } = Mathf.Infinity;
+    public float TimeSinceJumpRequested { get; set; } = 0f;
+    
+    [field: SerializeField, Header("Jumping")] public bool AllowJumpingWhenSliding { get; private set; }
+    [field: SerializeField, Range(0f, 40f)] public float JumpUpSpeed { get; private set; } = 16f;
+    [field: SerializeField, Range(0f, 40f)]public float JumpScalableForwardSpeed { get; private set; } = 0f;
+    [field: SerializeField, Range(0f, 40f)]public float JumpPreGroundingGraceTime { get; private set; } = 0.1f;
+    [field: SerializeField, Range(0f, 40f)]public float JumpPostGroundingGraceTime { get; private set; } = 0.1f;
+    [field: SerializeField, Range(0f, 40f)] public float WallJumpSpeed { get; private set; } = 4f;
 
-    [Header("Stable Movement")]
-    [SerializeField]
-    private float _maxStableMoveSpeed = 10f;
-    [SerializeField]
-    private float _stableMovementSharpness = 15f;
-    [SerializeField]
-    private float _orientationSharpness = 10f;
-
-    public float MaxStableMoveSpeed { get { return _maxStableMoveSpeed; } }
-    public float StableMovementSharpness { get { return _stableMovementSharpness; } }
-    public float OrientationSharpness { get { return _orientationSharpness; } }
-
-    [Header("Air Movement")]
-    [SerializeField] private float _maxAirMoveSpeed = 15f;
-    [SerializeField] private float _airAccelerationSpeed = 15f;
-    [SerializeField] private float _drag = 0.1f;
-
-    public float MaxAirMoveSpeed { get { return _maxAirMoveSpeed; } }
-    public float AirAccelerationSpeed { get { return _airAccelerationSpeed; } }
-    public float Drag { get { return _drag; } }
-
-    [Header("Jumping")]
-    [SerializeField] private bool _allowJumpingWhenSliding = false;
-    [SerializeField] private float _jumpUpSpeed = 10f;
-    [SerializeField] private float _jumpScalableForwardSpeed = 10f;
-    [SerializeField] private float _jumpPreGroundingGraceTime = 0f;
-    [SerializeField] private float _jumpPostGroundingGraceTime = 0f;
-
-    private bool _jumpRequested = false;
-    private bool _jumpConsumed = false;
-    private bool _jumpedThisFrame = false;
-    private float _timeSinceJumpRequested = Mathf.Infinity;
-    private float _timeSinceLastAbleToJump = 0f;
-
-    public bool JumpRequested { get { return _jumpRequested; } set { _jumpRequested = value; } }
-    public bool JumpConsumed { get { return _jumpConsumed; } set { _jumpConsumed = value; } }
-    public bool JumpedThisFrame { get { return _jumpedThisFrame; } set { _jumpedThisFrame = value; } }
-    public float TimeSinceLastAbleToJump { get { return _timeSinceLastAbleToJump; } }
-    public bool AllowJumpingWhenSliding { get { return _allowJumpingWhenSliding; } }
-    public float JumpUpSpeed { get { return _jumpUpSpeed; } }
-    [field: SerializeField] public float WallJumpSpeed { get; private set; }
-    public float JumpScalableForwardSpeed { get { return _jumpScalableForwardSpeed; } }
-    public float JumpPreGroundingGraceTime { get { return _jumpPreGroundingGraceTime; } }
-    public float JumpPostGroundingGraceTime { get { return _jumpPostGroundingGraceTime; } }
 
     [Header("Misc")]
     [SerializeField]
@@ -103,13 +69,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public Vector3 LookInputVector { get { return _lookInputVector; } }
     public PlatformerInputActions InputActions { get { return _platformerInputActions; } }
 
-    //state
-    private PlayerBaseState _currentState;
-    private PlayerStateFactory _states;
-    [SerializeField]
-    private string currentStateName;
 
-    public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
 
     private Vector3 _internalVelocityAdd = Vector3.zero;
 
@@ -153,9 +113,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     [field: SerializeField, Range(0f, 10f)] public float UnderWaterDrag { get; set; } = 1f;
     [field: SerializeField, Min(0)] public float Buoyancy { get; set; } = 1f;
 
-    [field: SerializeField] public CinemachineVirtualCameraBase GeneralCamera { get; set; }
-    [field: SerializeField] public CinemachineVirtualCameraBase WaterCamera { get; set; }
-
     //[Header("Wall Slide")]
     public bool IsWallSliding { get; set; }
 
@@ -164,8 +121,8 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     void Awake()
     {
         _states = new PlayerStateFactory(this);
-        _currentState = _states.Grounded();
-        _currentState.EnterState();
+        this.CurrentState = _states.Grounded();
+        this.CurrentState.EnterState();
         _platformerInputActions = new PlatformerInputActions();
     }
 
@@ -200,11 +157,11 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     {
         // Calculate camera direction and rotation on the character plane
         #region Get Movement Vector
-        Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(_camera.transform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
+        Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(this.Camera.transform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
 
         if (cameraPlanarDirection.sqrMagnitude == 0f)
         {
-            cameraPlanarDirection = Vector3.ProjectOnPlane(_camera.transform.rotation * Vector3.up, Motor.CharacterUp).normalized;
+            cameraPlanarDirection = Vector3.ProjectOnPlane(this.Camera.transform.rotation * Vector3.up, Motor.CharacterUp).normalized;
         }
         Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, Motor.CharacterUp);
 
@@ -217,27 +174,27 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
     public void AfterCharacterUpdate(float deltaTime)
     {
         // Handle jumping pre-ground grace period
-        if (_jumpRequested && _timeSinceJumpRequested > JumpPreGroundingGraceTime)
+        if (this.JumpRequested && this.TimeSinceJumpRequested > JumpPreGroundingGraceTime)
         {
-            _jumpRequested = false;
+            this.JumpRequested = false;
         }
 
         if (AllowJumpingWhenSliding ? Motor.GroundingStatus.FoundAnyGround : Motor.GroundingStatus.IsStableOnGround)
         {
             // If we're on a ground surface, reset jumping values
-            if (!_jumpedThisFrame)
+            if (!this.JumpedThisFrame)
             {
-                _jumpConsumed = false;
+                this.JumpConsumed = false;
             }
-            _timeSinceLastAbleToJump = 0f;
+            this.TimeSinceLastAbleToJump = 0f;
         }
         else
         {
             // Keep track of time since we were last able to jump (for grace period)
-            _timeSinceLastAbleToJump += deltaTime;
+            this.TimeSinceLastAbleToJump += deltaTime;
         }
 
-        _currentState.UpdateStates();
+        this.CurrentState.UpdateStates();
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -271,7 +228,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        _currentState.UpdateStateRotations(ref currentRotation, Time.deltaTime);
+        this.CurrentState.UpdateStateRotations(ref currentRotation, Time.deltaTime);
     }
 
     public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
@@ -279,13 +236,13 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         _animator.SetBool("isGrounded", Motor.GroundingStatus.IsStableOnGround);
         _animator.SetFloat("speedY", currentVelocity.y);
 
-        _jumpedThisFrame = false;
-        _timeSinceJumpRequested += deltaTime;
+        this.JumpedThisFrame = false;
+        this.TimeSinceJumpRequested += deltaTime;
         _sprintButtonHeld = _platformerInputActions.Player.Sprint.IsPressed();
 
 
-        _currentState.UpdateStateVelocitys(ref currentVelocity, Time.deltaTime);
-        currentStateName = _currentState.GetFullStateName();
+        this.CurrentState.UpdateStateVelocitys(ref currentVelocity, Time.deltaTime);
+        this.CurrentStateName = this.CurrentState.GetFullStateName();
 
         // Take into account additive velocity
         if (_internalVelocityAdd.sqrMagnitude > 0f)
@@ -293,16 +250,6 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
             currentVelocity += _internalVelocityAdd;
             _internalVelocityAdd = Vector3.zero;
         }
-
-        _groundHeightRay = new Ray(this.transform.position + (Vector3.up * 2f), -Vector3.up);
-
-        if (Physics.Raycast(_groundHeightRay, out _groundHeightRayHitInfo, Mathf.Infinity, _layers))
-        {
-            this.DistanceFromGround = Vector3.Distance(this.transform.position, _groundHeightRayHitInfo.point);
-            this.GroundPointUnderneath = _groundHeightRayHitInfo.point;
-        }
-
-        _currentVelocity = currentVelocity;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -313,7 +260,7 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
         }
 
 
-        _currentState.OnTriggerEnter(other);
+        this.CurrentState.OnTriggerEnter(other);
     }
 
     public void OnTriggerStay(Collider other)
@@ -325,18 +272,18 @@ public partial class PlayerStateMachine : MonoBehaviour, ICharacterController, I
             this.IsInWater = this.SubmergedAmount > this.FloatingHeight;
         }
 
-        _currentState.OnTriggerEnter(other);
+        this.CurrentState.OnTriggerEnter(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        _currentState.OnTriggerExit(other);
+        this.CurrentState.OnTriggerExit(other);
     }
 
     private void PerformJump(InputAction.CallbackContext obj)
     {
-        _timeSinceJumpRequested = 0f;
-        _jumpRequested = true;
+        this.TimeSinceJumpRequested = 0f;
+        this.JumpRequested = true;
     }
 
     public Vector3 GetCameraTargetPosition()
