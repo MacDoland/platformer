@@ -232,7 +232,7 @@ this.CurrentState.UpdateStates();
 
     public void OnTriggerEnter(Collider other)
     {
-        if (LayerIsInMask(WaterLayer, other.gameObject.layer))
+        if (Utility.LayerIsInMask(WaterLayer, other.gameObject.layer))
         {
             this.WaterLevel = other.bounds.center.y;
         }
@@ -244,7 +244,7 @@ this.CurrentState.UpdateStates();
     public void OnTriggerStay(Collider other)
     {
 
-        if (LayerIsInMask(WaterLayer, other.gameObject.layer))
+        if (Utility.LayerIsInMask(WaterLayer, other.gameObject.layer))
         {
             this.SubmergedAmount = Mathf.Clamp((this.WaterLevel - Motor.Transform.position.y) / this.Height, 0f, 1f);
             this.IsInWater = this.SubmergedAmount > this.FloatingHeight;
@@ -267,11 +267,6 @@ this.CurrentState.UpdateStates();
     public Vector3 GetCameraTargetPosition()
     {
         return this.CameraLookTarget;
-    }
-
-    private bool LayerIsInMask(LayerMask mask, int layer)
-    {
-        return mask == (mask | (1 << layer));
     }
 
 
